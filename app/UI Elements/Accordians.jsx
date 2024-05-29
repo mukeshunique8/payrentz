@@ -3,45 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-export default function Accordions() {
-  const data = [
-    {
-      Id: 1,
-      Question: "What is the minimum rental period?",
-      Answer:
-        "PayRentz products can be rented for a minimum period of 3 months. PayRentz products can be rented for a minimum,",
-    },
-    {
-      Id: 2,
-      Question: "Is there an agreement?",
-      Answer:
-        "PayRentz products can be rented for a minimum period of 3 months. PayRentz products can be rented for a minimum,",
-    },
-    {
-      Id: 3,
-      Question: "What is considered a good page load time?",
-      Answer:
-        "PayRentz products can be rented for a minimum period of 3 months. PayRentz products can be rented for a minimum,",
-    },
-    {
-      Id: 4,
-      Question: "How can I terminate the agreement ?",
-      Answer:
-        "PayRentz products can be rented for a minimum period of 3 months. PayRentz products can be rented for a minimum,",
-    },
-    {
-      Id: 5,
-      Question: "How much rent do I need to pay and when?",
-      Answer:
-        "PayRentz products can be rented for a minimum period of 3 months. PayRentz products can be rented for a minimum,",
-    },
-    {
-      Id: 6,
-      Question: "How much rent do I need to pay and when?",
-      Answer:
-        "PayRentz products can be rented for a minimum period of 3 months. PayRentz products can be rented for a minimum,",
-    },
-  ];
+export default function Accordions({data,QueStyles,BtnStyles,AnsStyles}) {
+  
 
   const [accordionOpen, setAccordionOpen] = useState(null);
 
@@ -58,9 +21,9 @@ export default function Accordions() {
         >
           <button
             onClick={() => handleAccordion(item.Id)}
-            className="flex w-full py-[10px] justify-between items-center    border-b border-[#D5D9E0]"
+            className={`${BtnStyles} flex w-full py-[10px] justify-between items-center  `}
           >
-            <h2 className="text-start text-[14px] font-extrabold md:text-[18px]  text-blue leading-[21px] md:font-bold">
+            <h2 className={`${QueStyles} cursor-pointer`}>
               {item.Question}
             </h2>
 
@@ -91,7 +54,7 @@ export default function Accordions() {
                 : "max-h-0  duration-500 ease-in-out overflow-hidden"
             }`}
           >
-            <p className="text-[12px] md:text-[16px] py-[10px]  text-[#556987] md:leading-[30px] font-medium">
+            <p className={AnsStyles}>
               {item.Answer}
             </p>
           </div>

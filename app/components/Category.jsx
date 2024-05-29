@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import RoundImageCard from "../UI Elements/RoundImageCard"
 
 export default function Category() {
   const RentItems = [
@@ -38,18 +39,17 @@ export default function Category() {
   ];
 
   const renderCategory = RentItems.map((item, index) => (
-    <div key={index} className="flex justify-start items-center flex-col gap-[10px] md:gap-[22px]">
-      <div className="relative  w-[83px] h-[83px]  md:w-[135px] md:h-[135px]  ">
-        <Image
-          className="object-cover rounded-[50%] "
-          src={item.imgsrc}
-          alt={item.imgalt}
-          fill
-          sizes="100%"
-        />
-      </div>
-      <p className="text-b1 text-[12px] md:text-[18px] font-bold">{item.name}</p>
-    </div>
+    <RoundImageCard
+      key={index}
+      imgsrc={item.imgsrc}
+      imgalt={item.imgalt}
+      name={item.name}
+
+      imgSizes="w-[83px] h-[83px] md:w-[135px] md:h-[135px]"
+      textStyle="text-[12px] md:text-[18px] text-b1" 
+
+    
+    />
   ));
 
   return (

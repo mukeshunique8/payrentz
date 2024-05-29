@@ -14,6 +14,7 @@ module.exports = {
         b1: "#2D2D2D",
         b2:"#1D1D1D",
         b3:"#858585",
+        gray:"#DBDBDB",
         red:"#ED1F28",
         lblue:"#F3F7FF",
         blue:"#2B5CAB",

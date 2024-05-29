@@ -14,12 +14,14 @@ export default function Banner1() {
         sizes="100%"
       />
 
-      <div className='absolute top-[50%] left-[50%] w-full -translate-x-[50%] -translate-y-[50%] flex flex-col justify-center items-center text-white '>
+      <div className='absolute top-[50%] left-[50%] w-full -translate-x-[50%] -translate-y-[50%] flex flex-col gap-[10px] justify-center items-center text-white '>
 
-        <h2 className='lg:text-[60px] font-extrabold '>Create a great home.</h2>
-        <h2 className='lg:text-[24px] font-semibold '>Customized rental solutions for you.</h2>
+        <div className='flex flex-col justify-center items-center'>
+        <h2 className='lg:text-[60px] text-[24px] font-extrabold '>Create a great home.</h2>
+        <h2 className='lg:text-[24px] text-[12px] font-semibold '>Customized rental solutions for you.</h2>
+        </div>
 
-        <Button value="Explore Products"/>
+        <Button style=" font-bold bg-red text-white  text-[14px] rounded-[5px]  md:text-[18px]" value="Explore Products"/>
 
       </div>
     </div>

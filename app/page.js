@@ -12,6 +12,7 @@ import RentAppliances from "./components/RentAppliances";
 import ClientChronicles from "./components/ClientChronicles";
 import FAQ from "./components/FAQ";
 import Location from "./components/Location";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [isLocationVisible, setIsLocationVisible] = useState(true);
@@ -19,7 +20,41 @@ export default function Page() {
   function handleCloseLocation() {
     setIsLocationVisible(false);
   }
-
+  const adsData1 = [
+    {
+      imageUrl: '/DisplayAd1.svg',
+      title: 'Front Load Washing Machine',
+      price: 650,
+      badgeText: 'Best Seller',
+      badgeColor: 'text-red',
+      badgeBgColor: 'bg-lblue'
+    },
+    {
+      imageUrl: '/DisplayAd2.svg',
+      title: 'Washing Machine (7kg)',
+      price: 500,
+      badgeText: 'Limited Time Offer',
+      badgeColor: 'text-white',
+      badgeBgColor: 'bg-red'
+    },
+    {
+      imageUrl: '/DisplayAd3.svg',
+      title: 'Washing Machine (7kg)',
+      price: 500,
+      badgeText: 'Best Seller',
+      badgeColor: 'text-red',
+      badgeBgColor: 'bg-lblue'
+    },
+    {
+      imageUrl: '/DisplayAd1.svg',
+      title: 'Washing Machine (7kg)',
+      price: 500,
+      badgeText: 'Limited Time Offer',
+      badgeColor: 'text-white',
+      badgeBgColor: 'bg-red'
+    },
+  ];
+  
   return (
     <div className={`w-full relative mx-auto bg-white ${isLocationVisible ? 'blur-background' : ''}`}>
       {isLocationVisible && (
@@ -30,7 +65,7 @@ export default function Page() {
       <Navbar />
       <Navbar2 />
       <Hero />
-      <Display />
+      <Display ads={adsData1} />
       <Promise />
       <Category />
       <Explore />

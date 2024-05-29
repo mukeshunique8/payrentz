@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
 import Button from "../UI Elements/Button";
+import { useRouter } from "next/navigation";
+
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -24,15 +26,28 @@ export default function Navbar() {
     },
   ];
 
+  const router = useRouter();
+  function handleHome() {
+    router.push(`/`);
+  }
+
+  function handleRoute(category) {
+   router.push(`/${category}`);
+
+
+  }
   const renderNavList = navlist.map((list, index) => (
     <div
       key={index}
-      className="flex md:justify-center md:items-center gap-[7px]"
+      className="flex cursor-pointer md:justify-center md:items-center gap-[7px]"
+      onClick={()=>handleRoute(list.listName)}
     >
       <div className="relative w-[17px] h-[17px]">
         <Image src={list.src} alt={list.srcAlt} fill sizes="100%" />
       </div>
-      <h2 className="text-b1 text-[14px] font-semibold">{list.listName}</h2>
+      <h2 className="text-b1 cursor-pointer text-[14px] font-semibold">
+        {list.listName}
+      </h2>
     </div>
   ));
 
@@ -46,7 +61,7 @@ export default function Navbar() {
           >
             <Image src="/NavHam.svg" alt="NavHam" fill sizes="100%" />
           </div>
-          <div className="relative w-[114px] h-[29px] lg:w-[122px] lg:h-[33px]">
+          <div onClick={handleHome} className="cursor-pointer relative w-[114px] h-[29px] lg:w-[122px] lg:h-[33px]">
             <Image src="/NavpayrentzLogo.svg" alt="AppLogo" fill sizes="100%" />
           </div>
           <div className="hidden lg:flex justify-center gap-2 items-center">
@@ -88,7 +103,7 @@ export default function Navbar() {
               Cart
             </h2>
           </div>
-          <Button value="Login" />
+          <Button style=" font-bold bg-red text-white  text-[14px] rounded-[5px]  md:text-[18px]" value="Login" />
         </div>
       </div>
 
