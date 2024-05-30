@@ -1,45 +1,61 @@
-import React from "react";
+"use client";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import { IoMdClose } from "react-icons/io";
 import Button from "../UI Elements/Button";
+import { AppContext } from "../contexts/AppContext";
+import RoundImageCard from "../UI Elements/RoundImageCard";
 
 export default function Location({ onClose }) {
+  const { pincode, setPincode, city, setCity, showLocationModal, setShowLocationModal } = useContext(AppContext);
+  const [localPincode, setLocalPincode] = useState(pincode);
+  const [error, setError] = useState(null);
+
+  const handleLocation = (e) => {
+    const code = e.target.value;
+    if (/^\d*$/.test(code)) {
+      setLocalPincode(code);
+      setError(null); // Clear error message if input is valid
+    } else {
+      setError("Pincode should contain only numbers.");
+    }
+  };
+
+  const handleProceed = (e) => {
+    if (e) e.preventDefault(); // Prevent default behavior if triggered by an event
+    if (/^\d{6}$/.test(localPincode)) {
+      setPincode(localPincode);
+      setShowLocationModal(false);
+    } else {
+      setError("Please enter a valid 6-digit pincode.");
+    }
+  };
+
   const locations = [
-    {
-      city: "Chennai",
-      imgsrc: "/Chennai.svg",
-      imgalt: "Chennai",
-    },
-    {
-      city: "Coimbatore",
-      imgsrc: "/Chennai.svg",
-      imgalt: "Coimbatore",
-    },
-    {
-      city: "Banglore",
-      imgsrc: "/Chennai.svg",
-      imgalt: "Banglore",
-    },
+    { city: "Chennai", imgsrc: "/chennai.jpg", imgalt: "Chennai" },
+    { city: "Coimbatore", imgsrc: "/covai.jpg", imgalt: "Coimbatore" },
+    { city: "Banglore", imgsrc: "/banglore.jpg", imgalt: "Banglore" },
   ];
 
+  const toggleSelection = (selectedCity) => {
+    setCity(selectedCity);
+    localStorage.setItem("")
+  };
+
   const renderLocation = locations.map((location, index) => (
-    <div
+    <RoundImageCard
       key={index}
-      className="flex  cursor-pointer justify-start items-center flex-col gap-[10px]"
-    >
-      <div className="relative  cursor-pointer  w-[40px] h-[40px]  md:w-[80px] md:h-[80px]  ">
-        <Image
-          className="object-cover rounded-[50%] "
-          src={location.imgsrc}
-          alt={location.imgalt}
-          fill
-          sizes="100%"
-        />
-      </div>
-      <p className="text-[#1D1D1D]  cursor-pointer text-[12px] md:text-[14px] font-semibold">
-        {location.city}
-      </p>
-    </div>
+      imgSizes=" w-[40px] h-[40px] md:w-[80px] md:h-[80px]"
+      name={location.city}
+      imgalt={location.imgalt}
+      imgsrc={location.imgsrc}
+      imgGrad={city === location.city}
+      textStyle= {city === location.city ?"text-[12px] md:text-[14px] text-red":"text-[12px] md:text-[14px] text-b1"}
+      imgStyle={city === location.city ? "bg-[#ED1F28] bg-opacity-40" : ""}
+      imgsrc2={city === location.city ? "/Tick.svg" : ""}
+      imgsrc2Sizes="w-[18px] h-[12px] md:w-[21px] md:h-[14px]"
+      onClick={() => toggleSelection(location.city)}
+    />
   ));
 
   return (
@@ -48,48 +64,37 @@ export default function Location({ onClose }) {
         <IoMdClose color="gray" size={20} />
       </button>
 
-      <div className=" w-full hidden md:flex md:w-1/2 ">
+      <div className="w-full hidden md:flex md:w-1/2">
         <div className="relative w-full h-[300px] md:w-[480px] md:h-[380px]">
-          <Image
-            className="cursor-pointer"
-            src="/LocationImage.svg"
-            alt="Location"
-            fill
-            sizes="100%"
-          />
+          <Image className="cursor-pointer" src="/LocationImage.svg" alt="Location" fill sizes="100%" />
         </div>
       </div>
-      <div className=" w-full md:w-1/2 gap-[10px] md:gap-[30px] flex justify-start items-start flex-col">
-        <h3 className="text-red font-bold md:text-[24px] md:leading-[28px]">
-          Choose your location
-        </h3>
+      <div className="w-full md:w-1/2 gap-[10px] md:gap-[30px] flex justify-start items-start flex-col">
+        <h3 className="text-red font-bold md:text-[24px] md:leading-[28px]">Choose your location</h3>
 
-        <div className="flex flex-col gap-[10px] ">
-          <h3 className="text-black font-semibold md:text-[18px] md:leading-[21px]">
-            Enter PIN code
-          </h3>
+        <div className="flex flex-col gap-[10px]">
+          <h3 className="text-black font-semibold md:text-[18px] md:leading-[21px]">Enter PIN code</h3>
 
           <div className="flex justify-start pt-[10px] gap-[10px] items-center">
             <input
-              className="p-[13px] border-[#E6E7E9] border-[1px] rounded-[5px] text-[#DBDBDB]"
+              onChange={handleLocation}
+              className="p-[13px] border-[#E6E7E9] border-[1px] rounded-[5px] text-[#DBDBDB] no-spinner"
               type="text"
-              placeholder="600001"
+              placeholder={pincode}
               name="pincode"
               id="pincode"
+              value={localPincode}
             />
-            <Button value="Proceed" />
+            <Button onClick={handleProceed} value="Proceed" />
           </div>
-          <p className=" cursor-pointer text-[12px] text-red underline">
-            Detect my location
-          </p>
+          {error && <p className="italic text-red text-sm">{error}</p>}
+          <p className="cursor-pointer text-[12px] text-red underline">Detect my location</p>
         </div>
 
-        <div className="flex flex-col justify-start items-start  w-full border-[#DBDBDB]  gap-[20px] border-t-[1px] pt-[30px]">
-          <h3 className="text-black font-semibold md:text-[18px] md:leading-[21px]">
-            Pick your city
-          </h3>
+        <div className="flex flex-col justify-start items-start w-full border-[#DBDBDB] gap-[20px] border-t-[1px] pt-[30px]">
+          <h3 className="text-black font-semibold md:text-[18px] md:leading-[21px]">Pick your city</h3>
 
-          <div className="flex justify-start  gap-[40px]">{renderLocation}</div>
+          <div className="flex justify-start gap-[40px]">{renderLocation}</div>
         </div>
       </div>
     </div>

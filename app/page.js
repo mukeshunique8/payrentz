@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useState, useContext } from "react";
 import Navbar from "./components/Navbar";
 import Navbar2 from "./components/Navbar2";
 import Hero from "./components/Hero";
@@ -13,12 +13,13 @@ import ClientChronicles from "./components/ClientChronicles";
 import FAQ from "./components/FAQ";
 import Location from "./components/Location";
 import { useRouter } from "next/navigation";
+import { AppContext } from "../app/contexts/AppContext";
 
 export default function Page() {
-  const [isLocationVisible, setIsLocationVisible] = useState(true);
+  const {showLocationModal, setShowLocationModal} = useContext(AppContext);
 
   function handleCloseLocation() {
-    setIsLocationVisible(false);
+    setShowLocationModal(false);
   }
   const adsData1 = [
     {
@@ -56,8 +57,8 @@ export default function Page() {
   ];
   
   return (
-    <div className={`w-full relative mx-auto bg-white ${isLocationVisible ? 'blur-background' : ''}`}>
-      {isLocationVisible && (
+    <div className={`w-full relative mx-auto bg-white ${showLocationModal ? 'blur-background' : ''}`}>
+      {showLocationModal && (
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-80">
           <Location onClose={handleCloseLocation} />
         </div>

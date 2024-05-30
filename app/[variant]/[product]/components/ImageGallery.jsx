@@ -5,7 +5,7 @@ export default function ImageGallery() {
 const images = ["/lap1.svg","/lap2.svg","/lap3.svg","/lap4.svg"]
 const renderImages = images.map((image,index)=>(
     <div className="relative w-[336px] h-[336px] md:w-[310px] md:h-[310px] ">
-        log
+        
         <Image
           className="object-cover cursor-pointer rounded-[5px] "
           src={image}

@@ -54,7 +54,7 @@ export default function RoundImageCard({
         )}
       </div>
       <p
-        className={`${textStyle} cursor-pointer text-center overflow-hidden text-ellipsis text-nowrap font-bold`}
+        className={`${textStyle} cursor-pointer text-center overflow-hidden text-ellipsis md:text-nowrap font-bold`}
       >
         {name}
       </p>

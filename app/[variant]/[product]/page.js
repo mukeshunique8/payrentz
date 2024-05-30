@@ -10,6 +10,8 @@ import Display from "../../components/Display";
 import ImageGallery from "./components/ImageGallery";
 import ProductDetails from "./components/ProductDetails";
 import FixedLayout from "./components/FixedLayout";
+import BottomBar from "../../UI Elements/BottomBar";
+import PinCode from "../../UI Elements/PinCode";
 
 export default function Page() {
   const adsData1 = [
@@ -47,16 +49,22 @@ export default function Page() {
     },
   ];
   return (
-    <div>
+    <div  className="">
       <Navbar />
       <Navbar2 />
       <Path />
       <FixedLayout/>
+      <div className="w-full px-[20px] md:hidden flex justify-center items-center">
+            <PinCode />
+          </div>
      
       <Switches />
       <Display ads={adsData1} />
 
       <Footer />
+      <div className="fixed bottom-0 md:hidden">
+      <BottomBar/>
+      </div>
     </div>
   );
 }

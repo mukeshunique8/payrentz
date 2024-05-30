@@ -1,12 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
 import Button from "../UI Elements/Button";
 import { useRouter } from "next/navigation";
+import { AppContext } from "../contexts/AppContext";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { pincode, setPincode,showLocationModal,setShowLocationModal,city } = useContext(AppContext);
 
   const navlist = [
     {
@@ -26,6 +28,10 @@ export default function Navbar() {
     },
   ];
 
+  function handleLocation(){
+    setShowLocationModal(true)
+  }
+
   const router = useRouter();
   function handleHome() {
     router.push(`/`);
@@ -42,10 +48,10 @@ export default function Navbar() {
       className="flex cursor-pointer md:justify-center md:items-center gap-[7px]"
       onClick={()=>handleRoute(list.listName)}
     >
-      <div className="relative w-[17px] h-[17px]">
+      <div className="relative w-[25px] h-[25px] md:w-[17px] md:h-[17px]">
         <Image src={list.src} alt={list.srcAlt} fill sizes="100%" />
       </div>
-      <h2 className="text-b1 cursor-pointer text-[14px] font-semibold">
+      <h2 className="text-b1 cursor-pointer text-[18px] md:text-[14px] font-semibold">
         {list.listName}
       </h2>
     </div>
@@ -64,25 +70,25 @@ export default function Navbar() {
           <div onClick={handleHome} className="cursor-pointer relative w-[114px] h-[29px] lg:w-[122px] lg:h-[33px]">
             <Image src="/NavpayrentzLogo.svg" alt="AppLogo" fill sizes="100%" />
           </div>
-          <div className="hidden lg:flex justify-center gap-2 items-center">
+          <div onClick={handleLocation} className="hidden cursor-pointer lg:flex justify-center gap-2 items-center">
             <Image
               src="/Navlocation.svg"
               alt="location"
               width={14}
               height={17}
             />
-            <div className="flex flex-col justify-center items-center">
-              <p className="text-b1 text-[14px] font-semibold">Chennai</p>
-              <p className="text-b3">600050</p>
+            <div className="flex flex-col cursor-pointer justify-center items-center">
+              <p className="text-b1 cursor-pointer text-[14px] font-semibold">{city}</p>
+              <p className="text-b3 cursor-pointer">{pincode}</p>
             </div>
           </div>
           <div className="gap-[30px] hidden lg:flex">{renderNavList}</div>
         </div>
 
-        <div className="w-1/2 flex flex-row-reverse md:flex-row md:justify-end items-center gap-[18px] md:gap-[30px]">
-          <div className="py-2 px-4 w-[100px] lg:w-[370px] rounded-[5px] border-[1px] border-b3 hidden lg:flex justify-center items-center">
+        <div className="w-1/2  flex flex-row-reverse md:flex-row md:justify-end items-center gap-[18px] md:gap-[30px]">
+          <div className="py-2  px-4 w-[100px] lg:w-[370px] rounded-[5px] border-[1px] border-b3 hidden lg:flex justify-center items-center">
             <input
-              className="w-[80%] text-b3"
+              className="w-[80%] focus:outline-none cursor-pointer text-b3"
               type="text"
               placeholder="Search"
             />
@@ -90,25 +96,25 @@ export default function Navbar() {
               <Image
                 src="/NavSearch.svg"
                 alt="NavSearch"
-                width={10}
-                height={10}
+                width={13}
+                height={13}
               />
             </button>
           </div>
-          <div className="flex justify-center items-center gap-[7px]">
-            <div className="relative w-[24px] h-[23px] lg:w-[17px] lg:h-[17px]">
+          <div className="flex cursor-pointer justify-center items-center gap-[7px]">
+            <div className="relative cursor-pointer w-[24px] h-[23px] lg:w-[17px] lg:h-[17px]">
               <Image src="NavCart.svg" alt="NavCart" fill sizes="100%" />
             </div>
-            <h2 className="hidden md:flex text-b1 text-[14px] font-semibold">
+            <h2 className="hidden cursor-pointer md:flex text-b1 text-[14px] font-semibold">
               Cart
             </h2>
           </div>
-          <Button style=" font-bold bg-red text-white  text-[14px] rounded-[5px]  md:text-[18px]" value="Login" />
+          <Button style=" font-bold bg-red text-white  text-[14px] rounded-[5px]  md:text-[14px]" value="Login" />
         </div>
       </div>
 
       <div
-        className={`fixed top-0 left-0 w-full h-full bg-white flex justify-between z-50   gap-4 p-4 transition-transform transform ${
+        className={`fixed top-0 left-0 w-full h-full bg-lblue flex justify-between z-50   gap-4 px-[20px] pt-[40px] transition-transform transform ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
         } lg:hidden`}
       >
