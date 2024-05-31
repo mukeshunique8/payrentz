@@ -11,6 +11,7 @@ export default function Location({ onClose }) {
   const [localPincode, setLocalPincode] = useState(pincode);
   const [error, setError] = useState(null);
 
+  console.log(pincode);
   const handleLocation = (e) => {
     const code = e.target.value;
     if (/^\d*$/.test(code)) {
@@ -83,7 +84,7 @@ export default function Location({ onClose }) {
               placeholder={pincode}
               name="pincode"
               id="pincode"
-              value={localPincode}
+             
             />
             <Button onClick={handleProceed} value="Proceed" />
           </div>

@@ -1,9 +1,6 @@
 "use client";
-import React, { useState, useContext } from "react";
-import Navbar from "./components/Navbar";
-import Navbar2 from "./components/Navbar2";
+import React, { useContext } from "react";
 import Hero from "./components/Hero";
-import Footer from "./components/Footer";
 import Display from "./components/Display";
 import Promise from "./components/Promise";
 import Category from "./components/Category";
@@ -11,19 +8,15 @@ import Explore from "./components/Explore";
 import RentAppliances from "./components/RentAppliances";
 import ClientChronicles from "./components/ClientChronicles";
 import FAQ from "./components/FAQ";
-import Location from "./components/Location";
-import { useRouter } from "next/navigation";
 import { AppContext } from "../app/contexts/AppContext";
 
 export default function Page() {
-  const {showLocationModal, setShowLocationModal} = useContext(AppContext);
+  const { showLocationModal } = useContext(AppContext);
 
-  function handleCloseLocation() {
-    setShowLocationModal(false);
-  }
   const adsData1 = [
     {
-      imageUrl: '/DisplayAd1.svg',
+      productId: 1,
+      imageUrl: '/1.jpg',
       title: 'Front Load Washing Machine',
       price: 650,
       badgeText: 'Best Seller',
@@ -31,7 +24,8 @@ export default function Page() {
       badgeBgColor: 'bg-lblue'
     },
     {
-      imageUrl: '/DisplayAd2.svg',
+      productId: 2,
+      imageUrl: '/2.webp',
       title: 'Washing Machine (7kg)',
       price: 500,
       badgeText: 'Limited Time Offer',
@@ -39,32 +33,29 @@ export default function Page() {
       badgeBgColor: 'bg-red'
     },
     {
-      imageUrl: '/DisplayAd3.svg',
-      title: 'Washing Machine (7kg)',
-      price: 500,
-      badgeText: 'Best Seller',
+      productId: 3,
+      imageUrl: '/3.webp',
+      title: 'Refrigerator',
+      price: 800,
+      badgeText: 'New Arrival',
       badgeColor: 'text-red',
       badgeBgColor: 'bg-lblue'
     },
     {
-      imageUrl: '/DisplayAd1.svg',
-      title: 'Washing Machine (7kg)',
-      price: 500,
-      badgeText: 'Limited Time Offer',
+      productId: 4,
+      imageUrl: '/4.webp',
+      title: 'LED Smart Tv',
+      price: 1800,
+      badgeText: 'Special Offer',
       badgeColor: 'text-white',
       badgeBgColor: 'bg-red'
     },
+    
+    
   ];
-  
+
   return (
     <div className={`w-full relative mx-auto bg-white ${showLocationModal ? 'blur-background' : ''}`}>
-      {showLocationModal && (
-        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-80">
-          <Location onClose={handleCloseLocation} />
-        </div>
-      )}
-      <Navbar />
-      <Navbar2 />
       <Hero />
       <Display ads={adsData1} />
       <Promise />
@@ -73,7 +64,6 @@ export default function Page() {
       <RentAppliances />
       <ClientChronicles />
       <FAQ />
-      <Footer />
     </div>
   );
 }

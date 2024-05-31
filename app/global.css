@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 @layer utilities {
     /* Hide scrollbar for Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {
@@ -14,13 +16,31 @@
   }
 }
 
-/* Hide the up and down arrows for number inputs */
-.no-spinner::-webkit-outer-spin-button,
-.no-spinner::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+#nprogress .bar {
+  background: #2B5CAB; /* Blue color */
+}
+#nprogress .peg {
+  box-shadow: 0 0 10px #2B5CAB, 0 0 5px #2B5CAB; /* Blue color */
+}
+#nprogress .spinner-icon {
+  border-top-color: #2B5CAB; /* Blue color */
+  border-left-color: #2B5CAB; /* Blue color */
 }
 
-.no-spinner {
-  -moz-appearance: textfield;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2B5CAB; /* Change the color to #2B5CAB */
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #011535; /* Change the color to a darker #2B5CAB */
 }

@@ -6,11 +6,38 @@ import Button from "../../../UI Elements/Button";
 import BottomBar from "../../../UI Elements/BottomBar";
 import { useKeenSlider } from "keen-slider/react";
 import PinCode from "../../../UI Elements/PinCode";
+import { useParams, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 
 export default function FixedLayout() {
   const [sliderRef] = useKeenSlider({
     loop: true,
   });
+
+  const { variant ,product} = useParams();
+  const searchParams  = useSearchParams()
+
+  const productName= decodeURI(product)
+  const productPrice = searchParams.get("price")
+  const productID = searchParams.get("id")
+  const productImg = searchParams.get("img")
+
+  const router = useRouter();
+  console.log(variant,decodeURI(product));
+  console.log(productID);
+  const cartItem ={
+    id: productID,
+    imgSrc: productImg,
+    title: productName,
+    price: productPrice,
+    deposit: 2000,
+    deliveryTime: "2-3 days after KYC",
+    quantity: 1,
+    tenure: "12+ months"
+  }
+
+  console.log();
   const images = ["/lap1.svg", "/lap2.svg", "/lap3.svg", "/lap4.svg"];
   const renderImages = images.map((image, index) => (
     <div
@@ -160,7 +187,8 @@ export default function FixedLayout() {
           </div>
 
           <div className="w-full hidden md:flex justify-center items-center">
-            <BottomBar />
+            <BottomBar item={cartItem} />
+            {/* <BottomBar  /> */}
           </div>
         </div>
       </div>

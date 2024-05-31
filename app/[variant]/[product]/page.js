@@ -16,42 +16,47 @@ import PinCode from "../../UI Elements/PinCode";
 export default function Page() {
   const adsData1 = [
     {
-      imageUrl: '/DisplayAd1.svg',
-      title: 'Front Load Washing Machine',
-      price: 650,
-      badgeText: 'Best Seller',
-      badgeColor: 'text-red',
-      badgeBgColor: 'bg-lblue'
-    },
-    {
-      imageUrl: '/DisplayAd2.svg',
-      title: 'Washing Machine (7kg)',
-      price: 500,
+      productId: 14,
+      imageUrl: '/14.webp',
+      title: 'Wooden Coffee Table',
+      price: 120,
       badgeText: 'Limited Time Offer',
       badgeColor: 'text-white',
       badgeBgColor: 'bg-red'
     },
     {
-      imageUrl: '/DisplayAd3.svg',
-      title: 'Washing Machine (7kg)',
-      price: 500,
+      productId: 15,
+      imageUrl: '/15.webp',
+      title: '4 seater Dinning Table',
+      price: 1250,
       badgeText: 'Best Seller',
       badgeColor: 'text-red',
       badgeBgColor: 'bg-lblue'
     },
     {
-      imageUrl: '/DisplayAd1.svg',
-      title: 'Washing Machine (7kg)',
-      price: 500,
+      productId: 16,
+      imageUrl: '/16.webp',
+      title: 'Fitness Bike',
+      price: 350,
       badgeText: 'Limited Time Offer',
       badgeColor: 'text-white',
       badgeBgColor: 'bg-red'
     },
+    {
+      productId: 17,
+      imageUrl: '/17.webp',
+      title: 'Single Door Refrigerator',
+      price: 200,
+      badgeText: 'Best Seller',
+      badgeColor: 'text-red',
+      badgeBgColor: 'bg-lblue'
+    },
+    
   ];
+  
   return (
     <div  className="">
-      <Navbar />
-      <Navbar2 />
+      
       <Path />
       <FixedLayout/>
       <div className="w-full px-[20px] md:hidden flex justify-center items-center">
@@ -61,7 +66,7 @@ export default function Page() {
       <Switches />
       <Display ads={adsData1} />
 
-      <Footer />
+     
       <div className="fixed bottom-0 md:hidden">
       <BottomBar/>
       </div>

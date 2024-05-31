@@ -7,14 +7,18 @@ export default function Display({ ads }) {
   const params = useSearchParams()
   const {variant} = useParams()
 
+  console.log();
+
   
 
 
   function handleProduct(product){
     if(variant){
 
-      router.push(`/${variant}/${product}`)
+      router.push(`/${variant}/${product.title}?price=${product.price}&id=${product.productId}&img=${product.imageUrl}`)
     }
+    router.push(`/${variant}/${product.title}?price=${product.price}&id=${product.productId}&img=${product.imageUrl}`)
+
     console.log("clicked")
   }
   return (
@@ -29,7 +33,7 @@ export default function Display({ ads }) {
             badgeText={ad.badgeText}
             badgeColor={ad.badgeColor}
             badgeBgColor={ad.badgeBgColor}
-            onclick={()=>handleProduct(ad.title)}
+            onclick={()=>handleProduct(ad)}
           />
         ))}
       </div>

@@ -8,7 +8,7 @@ const Banner2 = ({ titleSmall, titleLarge, imageSrc, reverse, rating, grad }) =>
         reverse ? 'flex flex-col lg:flex-row-reverse ' : 'flex flex-col lg:flex-row '
       }`}
     >
-      <div className="flex flex-col pt-[10px] lg:py-[45px]  text-[#F3F7FF] font-extrabold">
+      {/* <div className="flex flex-col pt-[10px] lg:py-[45px]  text-[#F3F7FF] font-extrabold">
         {rating ? (
           <div className="flex flex-row justify-center items-center gap-[8px]  lg:gap-3 lg:flex-col">
             <h2 className="text-[13px] md:text-[24px]">{titleSmall}</h2>
@@ -35,10 +35,10 @@ const Banner2 = ({ titleSmall, titleLarge, imageSrc, reverse, rating, grad }) =>
             <h2 className="text-[20px] leading-[23px] lg:text-[48px] lg:leading-[56px]">{titleLarge}</h2>
           </div>
         )}
-      </div>
-      <div className="relative w-[127px] h-[156px] lg:w-[210px] lg:h-[170px] rounded-[10px] bg-black">
+      </div> */}
+      <div className="relative  w-full h-[108px] lg:w-[427px] lg:h-[170px] rounded-[10px] ">
         <Image
-          className="object-cover"
+          className="object-cover rounded-[4px]"
           src={imageSrc}
           alt=""
           fill

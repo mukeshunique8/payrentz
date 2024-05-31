@@ -8,7 +8,7 @@ import { AppContext } from "../contexts/AppContext";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { pincode, setPincode,showLocationModal,setShowLocationModal,city } = useContext(AppContext);
+  const { pincode, setPincode,showLocationModal,setShowLocationModal,city,cart  } = useContext(AppContext);
 
   const navlist = [
     {
@@ -30,6 +30,7 @@ export default function Navbar() {
 
   function handleLocation(){
     setShowLocationModal(true)
+    // console.log("clicked");
   }
 
   const router = useRouter();
@@ -39,9 +40,14 @@ export default function Navbar() {
 
   function handleRoute(category) {
    router.push(`/${category}`);
-
-
   }
+
+  
+  function handleCart() {
+    router.push(`/cart`);
+   }
+
+
   const renderNavList = navlist.map((list, index) => (
     <div
       key={index}
@@ -101,13 +107,20 @@ export default function Navbar() {
               />
             </button>
           </div>
-          <div className="flex cursor-pointer justify-center items-center gap-[7px]">
+          <div onClick={handleCart} className="flex relative cursor-pointer justify-center items-center gap-[7px]">
             <div className="relative cursor-pointer w-[24px] h-[23px] lg:w-[17px] lg:h-[17px]">
               <Image src="NavCart.svg" alt="NavCart" fill sizes="100%" />
             </div>
             <h2 className="hidden cursor-pointer md:flex text-b1 text-[14px] font-semibold">
               Cart
             </h2>
+            {cart.length >0 && 
+             <div className="absolute -top-[20px] right-0 bg-red rounded-full flex justify-center items-center ">
+             <p className="text-[13px] text-white font-semibold px-[8px] py-[2px] ">{cart.length}</p>
+
+           </div>
+            }
+           
           </div>
           <Button style=" font-bold bg-red text-white  text-[14px] rounded-[5px]  md:text-[14px]" value="Login" />
         </div>
