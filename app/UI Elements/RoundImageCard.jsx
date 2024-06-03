@@ -21,7 +21,7 @@ export default function RoundImageCard({
     >
       <div className={`relative cursor-pointer overflow-hidden  ${imgSizes}`}>
         <Image
-          className="object-cover hover:rounded-none hover:scale-110 hover:transition-all hover:duration-200 rounded-full"
+          className="object-cover hover:scale-110 hover:transition-all hover:duration-300 rounded-full"
           src={imgsrc}
           alt={imgalt}
           fill

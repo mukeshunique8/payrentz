@@ -7,42 +7,46 @@ export const AppProvider = ({ children }) => {
   const [city, setCity] = useState("Chennai");
   const [showLocationModal, setShowLocationModal] = useState(null);
   const [cart, setCart] = useState(() => {
-    // Initialize cart from localStorage if available
-    const storedCart = localStorage.getItem("cart");
-    return storedCart ? JSON.parse(storedCart) : [];
+    if (typeof window !== "undefined") {
+      // Initialize cart from localStorage if available
+      const storedCart = localStorage.getItem("cart");
+      return storedCart ? JSON.parse(storedCart) : [];
+    } else {
+      return [];
+    }
   });
 
-  const state = city !=="Banglore"? "Tamil Nadu":"Karnataka"
-  const [address,setAddress] = useState({
-    addressLine1:"",
-    addressLine2:"",
-    city:city,
-    state:state,
-    pincode:pincode,
-    googleMapLink:"",
-  })
+  const state = city !== "Banglore" ? "Tamil Nadu" : "Karnataka";
+  const [address, setAddress] = useState({
+    addressLine1: "",
+    addressLine2: "",
+    city: city,
+    state: state,
+    pincode: pincode,
+    googleMapLink: "",
+  });
 
   useEffect(() => {
-    const savedPincode = localStorage.getItem("pincode");
-    const savedCity = localStorage.getItem("city");
+    if (typeof window !== "undefined") {
+      const savedPincode = localStorage.getItem("pincode");
+      const savedCity = localStorage.getItem("city");
 
-    if (savedPincode) setPincode(savedPincode);
-    if (savedCity) setCity(savedCity);
+      if (savedPincode) setPincode(savedPincode);
+      if (savedCity) setCity(savedCity);
 
-    if (savedPincode && savedCity) {
-      setShowLocationModal(false);
-    } else {
-      setShowLocationModal(true);
+      if (savedPincode && savedCity) {
+        setShowLocationModal(false);
+      } else {
+        setShowLocationModal(true);
+      }
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
   }, [cart]);
-
-  // const generateItemId = (productId) => {
-  //   return `${productId}_${Date.now()}`;
-  // };
 
   const addToCart = (item) => {
     const existingItemIndex = cart.findIndex((cartItem) => cartItem.id === item.id);
@@ -72,18 +76,22 @@ export const AppProvider = ({ children }) => {
 
   const handleSetPincode = (value) => {
     setPincode(value);
-    localStorage.setItem("pincode", value);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("pincode", value);
+    }
     if (value) setShowLocationModal(false);
   };
 
   const handleSetCity = (value) => {
     setCity(value);
-    localStorage.setItem("city", value);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("city", value);
+    }
   };
 
-  const updateAddress = (newAddress)=>{
-    setAddress(newAddress)
-  }
+  const updateAddress = (newAddress) => {
+    setAddress(newAddress);
+  };
 
   return (
     <AppContext.Provider
@@ -99,7 +107,7 @@ export const AppProvider = ({ children }) => {
         updateCartItem,
         removeFromCart,
         address,
-        updateAddress
+        updateAddress,
       }}
     >
       {showLocationModal !== null && children}
