@@ -3,7 +3,7 @@ import Button from './Button'
 
 export default function PinCode() {
   return (
-    <div className="w-full flex flex-col  gap-[10px] items-start justify-start sm:justify-center py-[30px] ">
+    <div className="w-full flex flex-col  gap-[10px] items-start justify-start sm:justify-center pt-[30px]  lg:py-[30px] ">
             <h3 className=" text-[#858585] text-[12px] md:text-[15px] font-semibold">
               Enter your PIN code to check availability of product in your
               location

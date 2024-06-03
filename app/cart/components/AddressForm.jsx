@@ -10,7 +10,7 @@ export default function AddressForm() {
   };
 // console.log(address);
   return (
-    <div className="grid grid-cols-2 gap-x-[30px] gap-y-[20px] justify-center w-full items-center">
+    <div className="flex flex-col md:grid grid-cols-2 gap-x-[30px] gap-y-[20px] justify-center w-full items-center">
       <div className='flex flex-col gap-[10px] justify-start items-start w-full'>
         <label className='font-semibold text-base leading-[18px] text-[#000000]' htmlFor="addressLine1">Address Line 1<span className="text-red text-[20px] text-start">*</span></label>
         <input type="text" name="addressLine1" value={address.addressLine1} onChange={handleChange} className='w-full justify-center items-center px-[10px] py-[12px] border-[1px] border-gray rounded-[5px]' />

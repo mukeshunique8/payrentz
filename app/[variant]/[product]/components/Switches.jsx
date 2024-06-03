@@ -99,7 +99,7 @@ export default function Switches() {
     </div>
   ));
   return (
-    <div className="w-full mx-auto  max-w-[1440px] flex flex-col justify-center items-start ">
+    <div className="w-full mx-auto   max-w-[1440px] flex flex-col justify-center items-start ">
       <div className="w-full flex flex-col justify-center">
       <div className="lg:flex hidden px-[10px] border-b-[1px] border-blue justify-between items-center py-[20px] font-semibold text-base leading-[18px]">
           <h3

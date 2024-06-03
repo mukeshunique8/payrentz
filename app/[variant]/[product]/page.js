@@ -57,16 +57,19 @@ export default function Page() {
     <div className="relative">
       <Path />
       <FixedLayout />
-      <div className="w-full px-[20px] lg:hidden flex justify-center items-center">
+      <div className="w-full px-[20px] md:hidden flex justify-center items-center">
         <PinCode />
       </div>
 
       {/* <Switches /> */}
-      <div className="flex flex-col max-w-[1440px] mx-auto lg:px-[60px] px-[20px] justify-center items-start pt-[20px] lg:pt-[40px]">
-        <h2 className="font-extrabold text-blue text-[16px] lg:text-[24px]">
+      <div className="flex flex-col max-w-[1440px] mx-auto  justify-center items-start pt-[20px] lg:pt-[40px]">
+        <h2 className="font-extrabold md:px-[60px] px-[20px] text-blue text-[16px] lg:text-[24px]">
           People Also Rented
         </h2>
+        <div>
+
       <Display ads={adsData1} />
+        </div>
       </div>
 
       <div className="fixed w-full bottom-0 md:hidden">

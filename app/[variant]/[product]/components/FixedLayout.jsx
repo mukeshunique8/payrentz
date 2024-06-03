@@ -123,7 +123,7 @@ export default function FixedLayout() {
   ));
 
   return (
-    <div className="w-full bg-blue md:bg-transparent flex flex-col lg:flex-row max-w-[1440px] gap-[30px] mx-auto px-[20px] py-[30px] md:px-[60px]">
+    <div className="w-full  md:bg-transparent flex flex-col lg:flex-row max-w-[1440px] lg:gap-[30px] mx-auto  md:pt-[20px]  md:px-[60px]">
       {/* Left Side: Images */}
 
       <div className="w-full flex flex-col items-center justify-center lg:w-[50%] place-items-center md:justify-start md:items-cecnter md:gap-[20px]">
@@ -132,17 +132,19 @@ export default function FixedLayout() {
         </div>
         <div
           ref={sliderRef}
-          className="w-full no-scrollbar  overflow-scroll  keen-slider justify-start flex lg:hidden"
+          className="w-full bg-lblue no-scrollbar pt-[20px]  overflow-scroll  keen-slider justify-start flex lg:hidden"
         >
           {renderImages}
         </div>
-        <Switches />
+        <div className="hidden  bg-white justify-center items-center lg:flex">
+          <Switches />
+        </div>
       </div>
 
       {/* Right Side: Fixed Content */}
-      <div className="lg:w-[620px] h-fit  w-full sticky top-0 flex">
-        <div className="w-full flex  flex-col   ">
-          <h3 className="md:pl-[20px] pb-[15px] text-b1 text-[24px] md:text-[32px] font-extrabold">
+      <div className="lg:w-[620px] h-fit    w-full lg:sticky top-[120px] flex">
+        <div className="w-full flex  flex-col  px-[20px] py-[20px] lg:pt-0 lg:px-0 bg-lblue md:bg-transparent   ">
+          <h3 className="md:pl-[20px] pb-[15px] text-b1 text-[24px]  md:text-[32px] font-extrabold">
             {productName}
           </h3>
           <div className="w-full bg-lblue rounded-[10px] md:px-[20px]  md:pb-[30px] flex flex-col justify-start">
@@ -204,6 +206,9 @@ export default function FixedLayout() {
             <BottomBar item={cartItem} />
           </div>
         </div>
+      </div>
+      <div className="flex bg-white justify-center px-[20px] py-[20px] lg:pt-0 lg:px-0  items-center lg:hidden">
+        <Switches />
       </div>
     </div>
   );

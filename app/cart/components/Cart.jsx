@@ -47,8 +47,8 @@ export default function Cart() {
   // console.log(showCart, showAddress, showAccessories, showPayment);
 
   return (
-    <div className="w-full max-w-[1440px] mx-auto md:px-[60px] px-[20px] flex justify-center items-center">
-      <div className="flex justify-center items-start w-full gap-[20px]">
+    <div className="w-full max-w-[1440px] mx-auto md:px-[60px] px-[20px]  justify-center items-center">
+      <div className="flex flex-col md:flex-row justify-center items-start w-full gap-[20px]">
         <div className="w-full md:w-[65%] pt-[40px]">
           {/* Accordions */}
           <div className="flex w-full cursor-pointer justify-start items-start flex-col">

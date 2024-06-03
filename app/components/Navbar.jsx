@@ -65,7 +65,7 @@ export default function Navbar() {
 
   return (
     <div className=" mx-auto  flex justify-center items-center w-full">
-      <div className="max-w-[1440px] mx-[20px] md:mx-[60px] my-[15px] w-full flex flex-wrap justify-center items-center">
+      <div className="max-w-[1440px] mx-[20px] md:mx-[60px] my-[15px] md:px-[60px] px-0  w-full flex flex-wrap justify-center items-center">
         <div className="w-1/2 flex justify-start gap-[18px] md:gap-[30px] items-center">
           <div
             className="relative flex lg:hidden w-[24px] h-[17px]"

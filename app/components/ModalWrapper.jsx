@@ -14,7 +14,7 @@ const ModalWrapper = ({ children }) => {
   return (
     <div className={`w-full relative mx-auto bg-white ${showLocationModal ? 'blur-background' : ''}`}>
       {showLocationModal && (
-        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-80">
+        <div className="fixed bottom-0 inset-0 flex justify-center items-center z-50 bg-black bg-opacity-80">
           <Location onClose={handleCloseLocation} />
         </div>
       )}
