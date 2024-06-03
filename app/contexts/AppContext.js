@@ -12,6 +12,16 @@ export const AppProvider = ({ children }) => {
     return storedCart ? JSON.parse(storedCart) : [];
   });
 
+  const state = city !=="Banglore"? "Tamil Nadu":"Karnataka"
+  const [address,setAddress] = useState({
+    addressLine1:"",
+    addressLine2:"",
+    city:city,
+    state:state,
+    pincode:pincode,
+    googleMapLink:"",
+  })
+
   useEffect(() => {
     const savedPincode = localStorage.getItem("pincode");
     const savedCity = localStorage.getItem("city");
@@ -71,6 +81,10 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem("city", value);
   };
 
+  const updateAddress = (newAddress)=>{
+    setAddress(newAddress)
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -84,6 +98,8 @@ export const AppProvider = ({ children }) => {
         addToCart,
         updateCartItem,
         removeFromCart,
+        address,
+        updateAddress
       }}
     >
       {showLocationModal !== null && children}

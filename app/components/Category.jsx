@@ -1,8 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import RoundImageCard from "../UI Elements/RoundImageCard"
+import { useRouter } from "next/navigation";
 
 export default function Category() {
+
   const RentItems = [
     {
       name: "Refrigerators",
@@ -38,8 +40,20 @@ export default function Category() {
     },
   ];
 
+  const router = useRouter()
+  function handleRoute(item) {
+    if (item === "Cots" ||  item === "Sofas"||item === "Mattresses") {
+
+      router.push(`/Furniture`);
+    }else
+    router.push(`/Appliances`);
+    // console.log("cli");
+   }
+ 
+
   const renderCategory = RentItems.map((item, index) => (
     <RoundImageCard
+    onClick={()=>handleRoute(item.name)}
       key={index}
       imgsrc={item.imgsrc}
       imgalt={item.imgalt}

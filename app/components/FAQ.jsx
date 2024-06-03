@@ -60,7 +60,7 @@ export default function FAQ() {
 
         <div className=" w-full  md:w-1/2 rounded-[12px] bg-[#F6FAFF] px-[20px] py-[30px] md:px-[45px] md:py-[50px]">
           <Accordions
-            BtnStyles=" border-b-[1px] border-[#858585]"
+            BtnStyles=" border-b-[1px] border-[#D5D9E0]"
             QueStyles="text-start text-[14px] font-extrabold md:text-[18px]  py-[5px] text-blue leading-[21px] md:font-bold"
             AnsStyles="text-[12px] md:text-[16px] py-[20px]  text-[#2D2D2D] md:leading-[30px] font-medium"
             data={data}

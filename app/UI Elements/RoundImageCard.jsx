@@ -17,11 +17,11 @@ export default function RoundImageCard({
   return (
     <div
       onClick={onClick}
-      className="flex cursor-pointer justify-start items-center flex-col gap-[10px] md:gap-[22px]"
+      className="flex cursor-pointer  justify-start items-center flex-col gap-[10px] md:gap-[22px]"
     >
-      <div className={`relative cursor-pointer ${imgSizes}`}>
+      <div className={`relative cursor-pointer overflow-hidden  ${imgSizes}`}>
         <Image
-          className="object-cover rounded-full"
+          className="object-cover hover:rounded-none hover:scale-110 hover:transition-all hover:duration-200 rounded-full"
           src={imgsrc}
           alt={imgalt}
           fill

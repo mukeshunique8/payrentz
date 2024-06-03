@@ -17,7 +17,7 @@ export default function Display({ ads }) {
 
       router.push(`/${variant}/${product.title}?price=${product.price}&id=${product.productId}&img=${product.imageUrl}`)
     }
-    router.push(`/${variant}/${product.title}?price=${product.price}&id=${product.productId}&img=${product.imageUrl}`)
+    router.push(`/Appliances/${product.title}?price=${product.price}&id=${product.productId}&img=${product.imageUrl}`)
 
     console.log("clicked")
   }

@@ -3,11 +3,19 @@ import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Button from "../../UI Elements/Button";
+import { useParams, useSearchParams } from "next/navigation";
 
 export default function Path() {
   const [showFilter, setShowFilter] = useState(false);
+  const { variant ,product} = useParams();
+  const productName= decodeURI(product)
+  
   const router = useRouter();
-  const pathname = usePathname();
+  const path = usePathname();
+  const pathname = decodeURI(path)
+  
+// console.log();
+
 
   const handleHome = () => {
     router.push(`/`);

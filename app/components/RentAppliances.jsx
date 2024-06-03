@@ -5,19 +5,19 @@ import Display from "./Display";
 export default function RentAppliances() {
   const ads = [
     {
-      productId: 10,
-      imageUrl: '/10.webp',
-      title: 'TreadMill',
-      price: 2000,
-      badgeText: 'Limited Time Offer',
+      productId: 4,
+      imageUrl: '/4.webp',
+      title: 'LED Smart Tv',
+      price: 1800,
+      badgeText: 'Special Offer',
       badgeColor: 'text-white',
       badgeBgColor: 'bg-red'
     },
     {
-      productId: 11,
-      imageUrl: '/11.webp',
-      title: 'Wooden Sofa',
-      price: 150,
+      productId: 5,
+      imageUrl: '/5.webp',
+      title: 'Air Conditioner',
+      price: 1200,
       badgeText: 'Best Seller',
       badgeColor: 'text-red',
       badgeBgColor: 'bg-lblue'

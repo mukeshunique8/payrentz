@@ -1,4 +1,6 @@
 import React from "react";
+import { useRouter } from "next/navigation";
+import { AppContext } from "../contexts/AppContext";
 
 export default function Navbar2() {
   const Appliances = [
@@ -11,10 +13,21 @@ export default function Navbar2() {
     "Televisions",
     "Laptops",
   ];
+const router = useRouter()
+  function handleRoute(list) {
+    if (list === "Cots" ||  list === "Sofas"||list === "Mattresses") {
+
+      router.push(`/Furniture`);
+    }else
+    router.push(`/Appliances`);
+    // console.log("cli");
+   }
+ 
+
 
   const renderAppliances = Appliances.map((list, index) => (
-    <div className="text-white  md:text-[14px] text-[12px] font-bold">
-      <p className="w-full text-nowrap">{list}</p>
+    <div onClick={()=>handleRoute(list)} className="text-white cursor-pointer  md:text-[14px] text-[12px] font-bold">
+      <p className="w-full  cursor-pointer text-nowrap">{list}</p>
     </div>
   ));
 

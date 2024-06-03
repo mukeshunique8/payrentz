@@ -86,7 +86,7 @@ export default function Switches() {
   const renderSpecs = specs.map((item, index) => (
     <div
       key={index}
-      className={`w-full flex py-[20px] pl-[30px] justify-start items-center gap-[40px] md:gap-[100px]
+      className={`w-full flex py-[20px] pl-[30px] justify-start items-center gap-[40px] lg:gap-[100px]
             ${index % 2 == 0 ? "bg-lblue" : "bgwhite   "}
         `}
     >
@@ -99,9 +99,9 @@ export default function Switches() {
     </div>
   ));
   return (
-    <div className="w-full mx-auto  max-w-[1440px] flex flex-col justify-center items-start px-[20px] md:px-[60px] ">
-      <div className="w-full md:w-[50%] flex flex-col justify-center">
-      <div className="md:flex hidden px-[10px] border-b-[1px] border-blue justify-between items-center py-[20px] font-semibold text-base leading-[18px]">
+    <div className="w-full mx-auto  max-w-[1440px] flex flex-col justify-center items-start ">
+      <div className="w-full flex flex-col justify-center">
+      <div className="lg:flex hidden px-[10px] border-b-[1px] border-blue justify-between items-center py-[20px] font-semibold text-base leading-[18px]">
           <h3
             onClick={() => handleSectionClick("description")}
             className={`cursor-pointer ${activeSection === "description" && "text-blue font-bold"}`}
@@ -122,11 +122,11 @@ export default function Switches() {
           </h3>
         </div>
 
-        <div ref={descriptionRef} className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] md:gap-[30px]  md:py-[40px]">
-          <h2 className="font-extrabold text-blue text-[16px] md:text-[24px]">
+        <div ref={descriptionRef} className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] lg:gap-[30px]  lg:py-[40px]">
+          <h2 className="font-extrabold text-blue text-[16px] lg:text-[24px]">
             Description
           </h2>
-          <p className="font-medium text-b1 text-[14px] md:text-[16px]">
+          <p className="font-medium text-b1 text-[14px] lg:text-[16px]">
             PayRentz offers Core i5 laptop on rental in Chennai with complete
             service backup. Laptop computer is compact and help people on the
             move to carry to office or client meetings. Laptops have replaced
@@ -143,36 +143,30 @@ export default function Switches() {
             also available.
           </p>
         </div>
-        <div ref={specsRef} className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] md:gap-[30px]  md:py-[40px]">
-          <h2 className="font-extrabold text-blue text-[16px] md:text-[24px]">
+        <div ref={specsRef} className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] lg:gap-[30px]  lg:py-[40px]">
+          <h2 className="font-extrabold text-blue text-[16px] lg:text-[24px]">
             Specifications
           </h2>
 
           <div className="flex w-full flex-col">{renderSpecs}</div>
         </div>
 
-        <div ref={faqRef} className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] md:gap-[30px]  md:py-[40px]">
-          <h2 className="font-extrabold text-blue text-[16px] md:text-[24px]">
+        <div ref={faqRef} className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] lg:gap-[30px]  lg:py-[40px]">
+          <h2 className="font-extrabold text-blue text-[16px] lg:text-[24px]">
             Frequently Asked Questions
           </h2>
 
           <div className="flex w-full flex-col">
             <Accordions
               BtnStyles=" border-b-[1px] border-[#D5D9E0]"
-              QueStyles="text-start text-[14px] font-extrabold md:text-[18px] py-[5px] text-blue md:text-black leading-[21px] md:font-bold"
-              AnsStyles="text-[12px] md:text-[16px] py-[20px]  text-[#2D2D2D] md:leading-[30px] font-medium"
+              QueStyles="text-start text-[14px] font-extrabold lg:text-[18px] py-[5px] text-blue lg:text-black leading-[21px] lg:font-bold"
+              AnsStyles="text-[12px] lg:text-[16px] py-[20px]  text-[#2D2D2D] lg:leading-[30px] font-medium"
               data={data}
             />
           </div>
         </div>
 
-        <div className="flex flex-col justify-center items-start pt-[20px] md:pt-[40px]">
-          <h2 className="font-extrabold text-blue text-[16px] md:text-[24px]">
-          People Also Rented
-          </h2>
-
-          
-        </div>
+       
       </div>
     </div>
   );

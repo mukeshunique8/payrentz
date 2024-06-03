@@ -7,6 +7,7 @@ import { AppContext } from "../../contexts/AppContext";
 function CartItem({ item }) {
   const { updateCartItem, removeFromCart } = useContext(AppContext);
 
+  console.log(item.tenure);
   const handleQuantityChange = (change) => {
     const newQuantity = item.quantity + change;
     if (newQuantity >= 1 && newQuantity <= 3) {
@@ -83,7 +84,7 @@ function CartItem({ item }) {
               variant="outline"
               value={item.tenure}
               onChange={handleTenureChange}
-              placeholder="12+ months"
+             placeholder={item.tenure}
               icon={<></>}
             >
               <option value="12+ months">12+ months</option>
@@ -96,7 +97,7 @@ function CartItem({ item }) {
       </div>
       <button
         onClick={() => removeFromCart(item.id)}
-        className="text-red-500 hover:text-red-700"
+        className="text-b1 hover:font-extrabold hover:transition-all hover:duration-75  hover:text-red"
       >
         Remove
       </button>

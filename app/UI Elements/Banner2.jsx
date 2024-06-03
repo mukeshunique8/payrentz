@@ -36,9 +36,9 @@ const Banner2 = ({ titleSmall, titleLarge, imageSrc, reverse, rating, grad }) =>
           </div>
         )}
       </div> */}
-      <div className="relative  w-full h-[108px] lg:w-[427px] lg:h-[170px] rounded-[10px] ">
+      <div className="relative  object-center w-full h-[108px] lg:w-[427px] lg:h-[170px] rounded-[10px] ">
         <Image
-          className="object-cover rounded-[4px]"
+          className="rounded-[4px] object-cover"
           src={imageSrc}
           alt=""
           fill

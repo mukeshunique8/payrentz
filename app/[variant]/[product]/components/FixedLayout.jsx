@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import TenureCard from "../../../UI Elements/TenureCard";
 import RoundImageCard from "../../../UI Elements/RoundImageCard";
@@ -8,25 +8,46 @@ import { useKeenSlider } from "keen-slider/react";
 import PinCode from "../../../UI Elements/PinCode";
 import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Switches from "./Switches";
 
+const tenures = [
+  {
+    months: "12+ months",
+    price: "₹1800",
+  },
+  {
+    months: "6+ months",
+    price: "₹2000",
+    badge: true,
+  },
+  {
+    months: "3+ months",
+    price: "₹2000",
+  },
+  {
+    months: "1 month+",
+    price: "₹3000",
+  },
+];
 
 export default function FixedLayout() {
   const [sliderRef] = useKeenSlider({
     loop: true,
   });
 
-  const { variant ,product} = useParams();
-  const searchParams  = useSearchParams()
+  const { variant, product } = useParams();
+  const searchParams = useSearchParams();
 
-  const productName= decodeURI(product)
-  const productPrice = searchParams.get("price")
-  const productID = searchParams.get("id")
-  const productImg = searchParams.get("img")
+  const productName = decodeURI(product);
+  const productPrice = searchParams.get("price");
+  const productID = searchParams.get("id");
+  const productImg = searchParams.get("img");
 
   const router = useRouter();
-  console.log(variant,decodeURI(product));
-  console.log(productID);
-  const cartItem ={
+
+  const [selectedTenure, setSelectedTenure] = useState(tenures[1]);
+
+  const cartItem = {
     id: productID,
     imgSrc: productImg,
     title: productName,
@@ -34,11 +55,11 @@ export default function FixedLayout() {
     deposit: 2000,
     deliveryTime: "2-3 days after KYC",
     quantity: 1,
-    tenure: "12+ months"
-  }
+    tenure: selectedTenure.months,
+  };
 
-  console.log();
-  const images = ["/lap1.svg", "/lap2.svg", "/lap3.svg", "/lap4.svg"];
+  // console.log(cartItem.tenure);
+  const images = ["/lap3.svg", "/lap2.svg", "/lap3.svg", "/lap4.svg"];
   const renderImages = images.map((image, index) => (
     <div
       key={index}
@@ -54,28 +75,17 @@ export default function FixedLayout() {
     </div>
   ));
 
-  const tenures = [
-    {
-      months: "12+ months",
-      price: "₹1800",
-    },
-    {
-      months: "6+ months",
-      price: "₹2000",
-      badge: true,
-    },
-    {
-      months: "3+ months",
-      price: "₹2000",
-    },
-    {
-      months: "1 month",
-      price: "₹3000",
-    },
-  ];
+  const handleSelect = (tenure) => {
+    setSelectedTenure(tenure);
+  };
 
   const renderTenures = tenures.map((tenure, index) => (
-    <TenureCard key={index} tenure={tenure} />
+    <TenureCard
+      key={index}
+      tenure={tenure}
+      onClick={() => handleSelect(tenure)}
+      selected={selectedTenure.months === tenure.months}
+    />
   ));
 
   const terms = [
@@ -113,23 +123,27 @@ export default function FixedLayout() {
   ));
 
   return (
-    <div className="w-full relative bg-lblue md:bg-transparent flex flex-col md:flex-row max-w-[1440px] gap-[30px] mx-auto px-[20px] py-[30px] md:px-[60px]">
+    <div className="w-full bg-blue md:bg-transparent flex flex-col lg:flex-row max-w-[1440px] gap-[30px] mx-auto px-[20px] py-[30px] md:px-[60px]">
       {/* Left Side: Images */}
-      <div className="w-full hidden  items-center justify-center md:w-[50%] md:grid md:grid-cols-2 md:justify-start md:items-start md:gap-[20px]">
-        {renderImages}
-      </div>
-      <div
-        ref={sliderRef}
-        className="w-full no-scrollbar  overflow-scroll  keen-slider justify-start flex md:hidden"
-      >
-        {renderImages}
+
+      <div className="w-full flex flex-col items-center justify-center lg:w-[50%] place-items-center md:justify-start md:items-cecnter md:gap-[20px]">
+        <div className="w-full hidden lg:grid lg:grid-cols-2  place-items-center justify-center items-center md:gap-[20px]">
+          {renderImages}
+        </div>
+        <div
+          ref={sliderRef}
+          className="w-full no-scrollbar  overflow-scroll  keen-slider justify-start flex lg:hidden"
+        >
+          {renderImages}
+        </div>
+        <Switches />
       </div>
 
       {/* Right Side: Fixed Content */}
-      <div className="md:w-[620px] w-full flex  md:relative">
-        <div className="w-full flex flex-col justify-start items-start   ">
+      <div className="lg:w-[620px] h-fit  w-full sticky top-0 flex">
+        <div className="w-full flex  flex-col   ">
           <h3 className="md:pl-[20px] pb-[15px] text-b1 text-[24px] md:text-[32px] font-extrabold">
-            Laptop i5 Core
+            {productName}
           </h3>
           <div className="w-full bg-lblue rounded-[10px] md:px-[20px]  md:pb-[30px] flex flex-col justify-start">
             <div className="flex w-full justify-between md:justify-end">
@@ -142,7 +156,7 @@ export default function FixedLayout() {
             </div>
 
             <div className="flex flex-col gap-[20px]">
-              <div className="md:flex grid grid-cols-2 gap-[10px] w-full flex-wrap justify-between items-center  ">
+              <div className="md:flex grid grid-cols-2 place-items-center gap-[10px] w-full flex-wrap justify-between items-center  ">
                 {renderTenures}
               </div>
               <div className="flex md:flex-row flex-col items-center justify-center gap-[20px] w-full bg-white border-gray border-[1px] rounded-[5px] px-[10px] py-[25px]">
@@ -186,9 +200,8 @@ export default function FixedLayout() {
             <PinCode />
           </div>
 
-          <div className="w-full hidden md:flex justify-center items-center">
+          <div className="w-full hidden lg:flex justify-center items-center">
             <BottomBar item={cartItem} />
-            {/* <BottomBar  /> */}
           </div>
         </div>
       </div>
