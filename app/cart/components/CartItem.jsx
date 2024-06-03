@@ -20,7 +20,7 @@ function CartItem({ item }) {
   };
 
   return (
-    <div className="flex w-full gap-[20px] justify-start items-start">
+    <div className="flex w-full sm:border-none pb-4 sm:pb-0 border-b-[2px] border-gray gap-[20px] justify-start items-start">
       <div className="relative w-[130px] h-[116px]">
         <Image
           className="object-cover rounded-[3px]"
@@ -51,7 +51,7 @@ function CartItem({ item }) {
             {item.deliveryTime}
           </span>
         </p>
-        <div className="flex justify-start items-center gap-[35px] w-full ">
+        <div className="flex  flex-col sm:flex-row items-start justify-start lg:items-center gap-[20px] sm:gap-[35px] w-full ">
           <div className="flex justify-start gap-[13px] items-center">
             <h3 className="font-semibold text-base text-b2">Quantity</h3>
             <div className="flex gap-[10px] justify-center items-center">
@@ -97,7 +97,7 @@ function CartItem({ item }) {
       </div>
       <button
         onClick={() => removeFromCart(item.id)}
-        className="text-b1 hover:font-extrabold hover:transition-all hover:duration-75  hover:text-red"
+        className="text-b1 right-[10px] absolute lg:relative hover:font-extrabold hover:transition-all hover:duration-75  hover:text-red"
       >
         Remove
       </button>

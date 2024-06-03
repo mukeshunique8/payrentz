@@ -8,6 +8,7 @@ import { MdPayment } from "react-icons/md";
 import { AppContext } from "../../contexts/AppContext"; // Adjust the import path as necessary
 import CartItem from "./CartItem";
 import AddressForm from "./AddressForm"; // Adjust the import path as necessary
+import CartAccessories from "./CartAccessories";
 
 export default function Cart() {
   const { cart, address } = useContext(AppContext);
@@ -15,15 +16,22 @@ export default function Cart() {
   const [showAddress, setShowAddress] = useState(false);
   const [showAccessories, setShowAccessories] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [addressErrors, setAddressErrors] = useState({});
+  const [isPassed,setIsPassed] = useState(false)
+
 
   function handleContinue() {
     if (showCart) {
       setShowCart(false);
       setShowAddress(true);
     } else if (showAddress) {
-      // console.log("Address:", address);
-      setShowAddress(false);
-      setShowAccessories(true);
+      const errors = validateAddress(address);
+      if (Object.keys(errors).length === 0) {
+        setShowAddress(false);
+        setShowAccessories(true);
+      } else {
+        setAddressErrors(errors);
+      }
     } else if (showAccessories) {
       setShowAccessories(false);
       setShowPayment(true);
@@ -43,13 +51,22 @@ export default function Cart() {
       setShowCart(true);
     }
   }
-
+  function validateAddress(address) {
+    const errors = {};
+    if (!address.addressLine1) errors.addressLine1 = "Please enter a valid address line 1.";
+    if (!address.addressLine2) errors.addressLine2 = "Please enter a valid address line 2.";
+    if (!address.city) errors.city = "Please enter a valid city.";
+    if (!address.state) errors.state = "Please enter a valid state.";
+    if (!address.pincode) errors.pincode = "Please enter a valid pincode.";
+    if (!address.googleMapLink) errors.googleMapLink = "Please enter a valid Google Map link.";
+    return errors;
+  }
   // console.log(showCart, showAddress, showAccessories, showPayment);
 
   return (
-    <div className="w-full max-w-[1440px] mx-auto md:px-[60px] px-[20px]  justify-center items-center">
+    <div className="w-full max-w-[1440px] mx-auto md:px-[60px] lg:px-[20px]  justify-center items-center">
       <div className="flex flex-col md:flex-row justify-center items-start w-full gap-[20px]">
-        <div className="w-full md:w-[65%] pt-[40px]">
+        <div className="w-full lg:w-[65%] pt-[40px]">
           {/* Accordions */}
           <div className="flex w-full cursor-pointer justify-start items-start flex-col">
             <div className="flex flex-col cursor-pointer gap-[12px] w-full py-[20px] border-b-[1px] border-gray">
@@ -76,7 +93,7 @@ export default function Cart() {
               </div>
               {showAddress && (
                 <div className="flex w-full flex-col px-[20px] gap-[20px] mt-[40px]">
-                  <AddressForm />
+<AddressForm errors={addressErrors} />
                 </div>
               )}
             </div>
@@ -88,8 +105,8 @@ export default function Cart() {
                 </h3>
               </div>
               {showAccessories && (
-                <div className="flex w-full flex-col px-[20px] gap-[20px] mt-[40px]">
-                  <p>Accessories</p>
+                <div className="flex w-full  ">
+                  <CartAccessories/>
                 </div>
               )}
             </div>
@@ -109,7 +126,7 @@ export default function Cart() {
           </div>
         </div>
 
-        <div className="w-full md:w-[35%] flex flex-col justify-center items-center gap-[10px] pt-[104px]">
+        <div className="w-full bg-white lg:bg-transparent fixed lg:relative bottom-0 lg:w-[35%] flex flex-col justify-center items-center gap-[10px] lg:pt-[104px]">
           <div className="flex gap-[20px] pl-[20px] py-[12px] border-gray border-[1px] rounded-[5px] w-full justify-start">
             <div className="relative w-[60px] h-[60px]">
               <Image src="/van2.svg" alt="van2" fill sizes="100%" />
@@ -123,7 +140,7 @@ export default function Cart() {
               </p>
             </div>
           </div>
-          <div className="flex gap-[20px] px-[20px] py-[12px] border-gray border-[1px] rounded-[5px] w-full bg-[#F7FAFC]">
+          <div className="hidden lg:flex gap-[20px] px-[20px] py-[12px] border-gray border-[1px] rounded-[5px] w-full bg-[#F7FAFC]">
             <div className="flex flex-col gap-[30px] w-full">
               <h3 className="text-red font-bold text-2xl">Order Summary</h3>
               <div className="flex flex-col gap-[20px] pb-[20px] border-gray border-b-[1px] w-full">
