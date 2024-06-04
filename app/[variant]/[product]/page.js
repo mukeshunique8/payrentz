@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Navbar2 from "../../components/Navbar2";
 import Footer from "../../components/Footer";
@@ -12,63 +12,52 @@ import ProductDetails from "./components/ProductDetails";
 import FixedLayout from "./components/FixedLayout";
 import BottomBar from "../../UI Elements/BottomBar";
 import PinCode from "../../UI Elements/PinCode";
+import BASEURL from "../../API";
+import { useRouter, useParams, useSearchParams } from "next/navigation";
 
 export default function Page() {
-  const adsData1 = [
-    {
-      productId: 14,
-      imageUrl: "/14.webp",
-      title: "Wooden Coffee Table",
-      price: 120,
-      badgeText: "Limited Time Offer",
-      badgeColor: "text-white",
-      badgeBgColor: "bg-red",
-    },
-    {
-      productId: 15,
-      imageUrl: "/15.webp",
-      title: "4 seater Dinning Table",
-      price: 1250,
-      badgeText: "Best Seller",
-      badgeColor: "text-red",
-      badgeBgColor: "bg-lblue",
-    },
-    {
-      productId: 16,
-      imageUrl: "/16.webp",
-      title: "Fitness Bike",
-      price: 350,
-      badgeText: "Limited Time Offer",
-      badgeColor: "text-white",
-      badgeBgColor: "bg-red",
-    },
-    {
-      productId: 17,
-      imageUrl: "/17.webp",
-      title: "Single Door Refrigerator",
-      price: 200,
-      badgeText: "Best Seller",
-      badgeColor: "text-red",
-      badgeBgColor: "bg-lblue",
-    },
-  ];
+  const [variantAll, setVariantAll] = useState([]);
+  
+  const { variant,product } = useParams();
+  const itemName = product
+  const item = variantAll.find((item)=> item.slug === itemName)
+
+
+  console.log(item);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await BASEURL.get("web/variant/list-all/");
+        const data = response.data.data.results;
+        // console.log(data);
+        setVariantAll(data);
+        // console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log(variantAll);
 
   return (
     <div className="relative">
-      <Path />
-      <FixedLayout />
+      <Path  />
+      <FixedLayout item={item} />
       <div className="w-full px-[20px] md:hidden flex justify-center items-center">
         <PinCode />
       </div>
 
       {/* <Switches /> */}
-      <div className="flex flex-col max-w-[1440px] mx-auto  justify-center items-start pt-[20px] lg:pt-[40px]">
+      <div className="flex flex-col max-w-[1440px] mx-auto overflow-hidden  justify-center items-start pt-[20px] lg:pt-[40px]">
         <h2 className="font-extrabold md:px-[60px] px-[20px] text-blue text-[16px] lg:text-[24px]">
           People Also Rented
         </h2>
         <div>
 
-      <Display ads={adsData1} />
+      <Display slider={true}  style="overflow-x-scroll no-scrollbar" ads={variantAll} />
         </div>
       </div>
 

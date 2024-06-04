@@ -1,4 +1,6 @@
 "use client";
+import {  useEffect } from "react";
+import BASEURL from "../API"
 import React, { useState, useContext } from "react";
 import Image from "next/image";
 import { IoMdClose } from "react-icons/io";
@@ -7,6 +9,21 @@ import { AppContext } from "../contexts/AppContext";
 import RoundImageCard from "../UI Elements/RoundImageCard";
 
 export default function Location({ onClose }) {
+
+  // useEffect(()=>{
+  //   const fetchData  = async () =>{
+  //     try{
+  //       const repsonse = await BASEURL.get('web/home/city/')
+  //       const cityList = repsonse.data.data.results
+  //       console.log(cityList)
+  //     }catch(err){
+  //       console.log(err);
+  //     }
+  //   }
+  //   fetchData()
+  // },[])
+
+
   const { pincode, setPincode, city, setCity, showLocationModal, setShowLocationModal } = useContext(AppContext);
   const [localPincode, setLocalPincode] = useState(pincode);
   const [error, setError] = useState(null);
@@ -33,14 +50,16 @@ export default function Location({ onClose }) {
   };
 
   const locations = [
-    { city: "Chennai", imgsrc: "/chennai.jpg", imgalt: "Chennai" },
-    { city: "Coimbatore", imgsrc: "/covai.jpg", imgalt: "Coimbatore" },
-    { city: "Banglore", imgsrc: "/banglore.jpg", imgalt: "Banglore" },
+    {pincode_detail:"600012", city: "Chennai", imgsrc: "/chennai.jpg", imgalt: "Chennai", },
+    {pincode_detail:"670001", city: "Coimbatore", imgsrc: "/covai.jpg", imgalt: "Coimbatore" },
+    {pincode_detail:"560002", city: "Banglore", imgsrc: "/banglore.jpg", imgalt: "Banglore" },
   ];
 
-  const toggleSelection = (selectedCity) => {
+  const toggleSelection = (selectedCity,pincode) => {
     setCity(selectedCity);
-    localStorage.setItem("")
+    setPincode(pincode);
+    localStorage.setItem("city", selectedCity);
+    localStorage.setItem("pincode", pincode);
   };
 
   const renderLocation = locations.map((location, index) => (
@@ -55,7 +74,7 @@ export default function Location({ onClose }) {
       imgStyle={city === location.city ? "bg-[#ED1F28] bg-opacity-40" : ""}
       imgsrc2={city === location.city ? "/Tick.svg" : ""}
       imgsrc2Sizes="w-[18px] h-[12px] md:w-[21px] md:h-[14px]"
-      onClick={() => toggleSelection(location.city)}
+      onClick={() => toggleSelection(location.city,location.pincode_detail)}
     />
   ));
 

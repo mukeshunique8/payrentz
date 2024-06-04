@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Hero from "./components/Hero";
 import Display from "./components/Display";
 import Promise from "./components/Promise";
@@ -9,59 +9,56 @@ import RentAppliances from "./components/RentAppliances";
 import ClientChronicles from "./components/ClientChronicles";
 import FAQ from "./components/FAQ";
 import { AppContext } from "../app/contexts/AppContext";
+import BASEURL from "./API";
 
 export default function Page() {
   const { showLocationModal } = useContext(AppContext);
+  const [variantAll, setVariantAll] = useState([]);
 
-  const adsData1 = [
-    {
-      productId: 1,
-      imageUrl: '/1.jpg',
-      title: 'Front Load Washing Machine',
-      price: 650,
-      badgeText: 'Best Seller',
-      badgeColor: 'text-red',
-      badgeBgColor: 'bg-lblue'
-    },
-    {
-      productId: 2,
-      imageUrl: '/2.webp',
-      title: 'Washing Machine (7kg)',
-      price: 500,
-      badgeText: 'Limited Time Offer',
-      badgeColor: 'text-white',
-      badgeBgColor: 'bg-red'
-    },
-    {
-      productId: 3,
-      imageUrl: '/3.webp',
-      title: 'Refrigerator',
-      price: 800,
-      badgeText: 'New Arrival',
-      badgeColor: 'text-red',
-      badgeBgColor: 'bg-lblue'
-    },
-    {
-      productId: 4,
-      imageUrl: '/4.webp',
-      title: 'LED Smart Tv',
-      price: 1800,
-      badgeText: 'Special Offer',
-      badgeColor: 'text-white',
-      badgeBgColor: 'bg-red'
-    },
-    
-    
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await BASEURL.get("web/variant/list-all/");
+        const data = response.data.data.results;
 
+        // const variantAll = data.map((item) => ({
+        //   category:item.category_detail.id,
+        //   category:item.category_detail.id,
+        //   productId: item.id,
+        //   imageUrl: "/1.jpg",
+        //   title: item.identity,
+        //   price: 650,
+        //   badgeText: "Best Seller",
+        //   badgeColor: "text-red",
+        //   badgeBgColor: "bg-lblue",
+        // }));
+
+        console.log(data);
+        setVariantAll(data);
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
+
+  
   return (
-    <div className={`w-full relative mx-auto bg-white ${showLocationModal ? 'blur-background' : ''}`}>
+    <div
+      className={`w-full relative mx-auto bg-white ${
+        showLocationModal ? "blur-background" : ""
+      }`}
+    >
       <Hero />
-      <Display ads={adsData1} />
+      <div className="flex ">
+
+      <Display slider={true} style="overflow-x-scroll no-scrollbar" ads={variantAll} />
+      </div>
       <Promise />
       <Category />
       <Explore />
-      <RentAppliances />
+      <RentAppliances data={variantAll} />
       <ClientChronicles />
       <FAQ />
     </div>

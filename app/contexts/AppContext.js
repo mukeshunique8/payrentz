@@ -1,11 +1,15 @@
 import { createContext, useState, useEffect } from "react";
-
+import BASEURL from "../API"
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
+
+  
+
   const [pincode, setPincode] = useState("600001");
   const [city, setCity] = useState("Chennai");
   const [showLocationModal, setShowLocationModal] = useState(null);
+
   const [cart, setCart] = useState(() => {
     if (typeof window !== "undefined") {
       // Initialize cart from localStorage if available
@@ -16,6 +20,8 @@ export const AppProvider = ({ children }) => {
     }
   });
 
+  
+ 
   const state = city !== "Banglore" ? "Tamil Nadu" : "Karnataka";
   const [address, setAddress] = useState({
     addressLine1: "",

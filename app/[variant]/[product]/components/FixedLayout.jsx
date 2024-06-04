@@ -10,27 +10,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Switches from "./Switches";
 
-const tenures = [
-  {
-    months: "12+ months",
-    price: "₹1800",
-  },
-  {
-    months: "6+ months",
-    price: "₹2000",
-    badge: true,
-  },
-  {
-    months: "3+ months",
-    price: "₹2000",
-  },
-  {
-    months: "1 month+",
-    price: "₹3000",
-  },
-];
-
-export default function FixedLayout() {
+export default function FixedLayout({ item }) {
   const [sliderRef] = useKeenSlider({
     loop: true,
   });
@@ -45,25 +25,62 @@ export default function FixedLayout() {
 
   const router = useRouter();
 
-  const [selectedTenure, setSelectedTenure] = useState(tenures[1]);
+  // Initialize an empty array to hold the tenures
+  let tenures = [];
 
+  // Check each tenure value and add it to the tenures array if it's true
+  if (item?.tenure_1) {
+    tenures.push({
+      months: "1 month+",
+      price: "₹" + item?.rent_1,
+    });
+  }
+
+  if (item?.tenure_3) {
+    tenures.push({
+      months: "3+ months",
+      price: "₹" + item?.rent_3,
+    });
+  }
+
+  if (item?.tenure_6) {
+    tenures.push({
+      months: "6+ months",
+      price: "₹" + item?.rent_6,
+    });
+  }
+
+  if (item?.tenure_12) {
+    tenures.push({
+      months: "12+ months",
+      price: "₹" + item?.rent_12,
+      badge: true,
+    });
+  }
+
+  // console.log(tenures);
+
+  const [selectedTenure, setSelectedTenure] = useState(
+    tenures?.[tenures.length - 1]
+  );
   const cartItem = {
-    id: productID,
-    imgSrc: productImg,
-    title: productName,
-    price: productPrice,
+    id: item?.sub_category?.id,
+    imgSrc: item?.image_detail?.[0]?.file || "/PH_Card_Image.jpg",
+    title: item?.identity,
+    price: item?.rent_1,
     deposit: 2000,
     deliveryTime: "2-3 days after KYC",
     quantity: 1,
-    tenure: selectedTenure.months,
+    tenure: selectedTenure?.months,
   };
 
-  // console.log(cartItem.tenure);
-  const images = ["/lap3.svg", "/lap2.svg", "/lap3.svg", "/lap4.svg"];
-  const renderImages = images.map((image, index) => (
+  const image_detail = item?.image_detail;
+  const images =image_detail?.map((img) => img?.file);
+
+  const renderImages = images?.map((image, index) => (
     <div
       key={index}
-      className="relative keen-slider__slide w-[336px] h-[336px] md:w-[300px] md:h-[300px]"
+      className="relative keen-slider__slide w-[336px] h-[336px] md:min-w-[570px] md:h-[570px]"
     >
       <Image
         className="object-contain cursor-pointer rounded-[5px]"
@@ -84,7 +101,7 @@ export default function FixedLayout() {
       key={index}
       tenure={tenure}
       onClick={() => handleSelect(tenure)}
-      selected={selectedTenure.months === tenure.months}
+      selected={selectedTenure?.months === tenure?.months}
     />
   ));
 
@@ -127,12 +144,12 @@ export default function FixedLayout() {
       {/* Left Side: Images */}
 
       <div className="w-full flex flex-col items-center justify-center lg:w-[50%] place-items-center md:justify-start md:items-cecnter md:gap-[20px]">
-        <div className="w-full hidden lg:grid lg:grid-cols-2  place-items-center justify-center items-center md:gap-[20px]">
+        {/* <div className="w-full hidden lg:grid lg:grid-cols-2  place-items-center justify-center items-center md:gap-[20px]">
           {renderImages}
-        </div>
+        </div> */}
         <div
           ref={sliderRef}
-          className="w-full bg-lblue no-scrollbar pt-[20px]  overflow-scroll  keen-slider justify-start flex lg:hidden"
+          className="w-full bg-lblue  lg:bg-transparent no-scrollbar pt-[20px]  overflow-scroll  keen-slider justify-start flex "
         >
           {renderImages}
         </div>
@@ -145,7 +162,7 @@ export default function FixedLayout() {
       <div className="lg:w-[620px] h-fit    w-full lg:sticky top-[120px] flex">
         <div className="w-full flex  flex-col  px-[20px] py-[20px] lg:pt-0 lg:px-0 bg-lblue md:bg-transparent   ">
           <h3 className="md:pl-[20px] pb-[15px] text-b1 text-[24px]  md:text-[32px] font-extrabold">
-            {productName}
+            {item?.identity ? item.identity : ""}
           </h3>
           <div className="w-full bg-lblue rounded-[10px] md:px-[20px]  md:pb-[30px] flex flex-col justify-start">
             <div className="flex w-full justify-between md:justify-end">
@@ -158,7 +175,7 @@ export default function FixedLayout() {
             </div>
 
             <div className="flex flex-col gap-[20px]">
-              <div className="md:flex grid grid-cols-2 place-items-center gap-[10px] w-full flex-wrap justify-between items-center  ">
+              <div className="md:flex grid grid-cols-2 place-items-center gap-[10px] w-full flex-wrap flex-row-reverse justify-around items-center  ">
                 {renderTenures}
               </div>
               <div className="flex md:flex-row flex-col items-center justify-center gap-[20px] w-full bg-white border-gray border-[1px] rounded-[5px] px-[10px] py-[25px]">

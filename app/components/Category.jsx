@@ -68,7 +68,7 @@ export default function Category() {
 
   return (
     <div className="w-full mx-auto max-w-[1440px] flex justify-center items-center">
-      <div className=" mx-[20px] my-[30px] lg:mx-[150px] md:my-[50px] flex flex-col justify-center items-center gap-[20px] md:gap-[60px] ">
+      <div className=" mx-[20px] my-[30px] lg:mx-[60px] md:my-[50px] flex flex-col justify-center items-center gap-[20px] md:gap-[60px] ">
         <div className="flex justify-center items-center">
           <p className="text-blue text-[18px] font-extrabold md:hidden">
             Shop by Category

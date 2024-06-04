@@ -1,8 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppContext } from "../contexts/AppContext";
+import BASEURL from "../API";
 
 export default function Navbar2() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await BASEURL.get("web/home/category/list/");
+        const List = response.data.data.results;
+        // console.log(List);
+        setCategories(List);
+
+ 
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, []);
+
   const Appliances = [
     "Refrigerators",
     "Washing Machines",
@@ -17,9 +36,9 @@ const router = useRouter()
   function handleRoute(list) {
     if (list === "Cots" ||  list === "Sofas"||list === "Mattresses") {
 
-      router.push(`/Furniture`);
+      router.push(`/furniture`);
     }else
-    router.push(`/Appliances`);
+    router.push(`/appliances`);
     // console.log("cli");
    }
  

@@ -10,11 +10,11 @@ export default function TenureCard({ tenure, onClick, selected }) {
       }`}
     >
       <div className="px-[25px] cursor-pointer flex flex-col justify-center items-center">
-        <p className="text-b1 font-semibold text-[12px] md:text-[15px] md:leading-[17px] cursor-pointer">
+        <p className="text-b1 text-nowrap font-semibold text-[12px] md:text-[15px] md:leading-[17px] cursor-pointer">
           {tenure.months}
         </p>
         <div className="flex md:flex-col flex-row justify-center text-center items-center cursor-pointer">
-          <p className="md:pt-[10px] text-b1 font-bold text-[22px]  md:text-[28px] md:leading-[32px] cursor-pointer">
+          <p className="md:pt-[10px]  text-b1 font-bold text-[22px]  md:text-[28px] md:leading-[32px] cursor-pointer">
             {tenure.price}
           </p>
           <p className="text-b3 font-medium text-[12px] cursor-pointer">

@@ -5,7 +5,7 @@ import Badge from "./Badge";
 
 export default function Card({ imageUrl, title, price, badgeText, badgeColor, badgeBgColor,onclick }) {
   return (
-    <div onClick={onclick} className="w-[153px] rounded-[5px]  overflow-hidden  md:w-[295px] flex flex-col justify-start gap-[10px] items-center">
+    <div onClick={onclick} className="min-w-[153px] rounded-[5px]  overflow-hidden  md:min-w-[295px] flex flex-col justify-start gap-[10px] items-center">
       <div className="relative rounded-[5px]  cursor-pointer  w-[153px] h-[153px] md:w-[295px] md:h-[263px] ">
         <Image
           className="object-cover hover:scale-105  transition-all duration-500 cursor-pointer rounded-[5px] "

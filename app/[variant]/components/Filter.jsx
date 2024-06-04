@@ -9,9 +9,11 @@ export default function Filter() {
   const { variant } = useParams();
   const router = useRouter();
 
+
+
   const RentItems = [
-    { name: "Refrigerators", imgsrc: "/CatRef.svg", imgalt: "CatRef" },
-    { name: "Televisions", imgsrc: "/CatTel.svg", imgalt: "Televisions" },
+    { name: "Refrigerator", imgsrc: "/CatRef.svg", imgalt: "CatRef" },
+    { name: "Television", imgsrc: "/CatTel.svg", imgalt: "Televisions" },
     { name: "Mattresses", imgsrc: "/CatMat.svg", imgalt: "Mattresses" },
     { name: "Cots", imgsrc: "/CatCot.svg", imgalt: "Cots" },
     { name: "Air Conditioners", imgsrc: "/CatAir.svg", imgalt: "Air Conditioners" },
@@ -22,7 +24,7 @@ export default function Filter() {
   const [showAll, setShowAll] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
 
-  console.log(selectedItems);
+  // console.log(selectedItems);
 
   const handleShowAll = () => {
     setShowAll(prev => !prev);
@@ -32,21 +34,29 @@ export default function Filter() {
     setShowFilter(prev => !prev);
   };
 
-  const toggleSelection = (name) => {
-    if (name === "All") {
-      setSelectedItems(selectedItems.includes("All") ? [] : ["All"]);
-    } else {
-      setSelectedItems(prev => {
-        if (prev.includes(name)) {
-          return prev.filter(item => item !== name);
-        } else {
-          return prev.includes("All")
-            ? [name]
-            : [...prev, name];
-        }
-      });
-    }
-  };
+ const toggleSelection = (name) => {
+  let updatedSelectedItems;
+  if (name === "All") {
+    updatedSelectedItems = selectedItems.includes("All") ? [] : ["All"];
+  } else {
+    updatedSelectedItems = selectedItems.includes(name)
+      ? selectedItems.filter(item => item !== name)
+      : selectedItems.includes("All")
+        ? [name]
+        : [...selectedItems, name];
+  }
+  setSelectedItems(updatedSelectedItems);
+  console.log(updatedSelectedItems);
+
+  // Construct the query string based on the updated selected items
+  const selectedQuery = updatedSelectedItems.includes("All") ? "" : `filter=${updatedSelectedItems}`;
+  const query = `sub_category=${selectedQuery}`;
+
+ 
+  router.push(`/${variant}?${selectedQuery}`)
+  // console.log("click");
+};
+
 
   const renderCategory = RentItems.slice(0, showAll ? RentItems.length : 3).map((item, index) => (
     <RoundImageCard
