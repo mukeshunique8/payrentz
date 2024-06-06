@@ -42,7 +42,7 @@ export default function FAQ() {
     },
   ];
   return (
-    <div className="w-full max-w-[1440px]  mx-auto flex justify-center items-center">
+    <div id="FAQs" className="w-full max-w-[1440px]  mx-auto flex justify-center items-center">
       <div className="w-full flex flex-col md:flex-row mx-[20px] my-[30px] md:mx-[118px] md:my-[50px] gap-[20px] md:gap-[90px] justify-center items-center ">
         <div className=" w-full  md:w-1/2 flex flex-col gap-[27px]  md:justify-start md:items-start">
           <div className="flex flex-col justify-center items-center md:justify-start md:items-start  gap-[13px]">

@@ -16,6 +16,8 @@ export default function Navbar() {
     setPincode,
     showLocationModal,
     setShowLocationModal,
+    showLoginModal,
+    setShowLoginModal,
     city,
     cart,
   } = useContext(AppContext);
@@ -57,26 +59,14 @@ export default function Navbar() {
     };
     fetchData();
   }, []);
-  // const navlist = [
-  //     {
-  //       listName: "Appliances",
-  //       src: "/NavAppliances.svg",
-  //       srcAlt: "NavAppliances",
-  //     },
-  //     {
-  //       listName: "Furniture",
-  //       src: "/NavFurniture.svg",
-  //       srcAlt: "NavFurniture",
-  //     },
-  //     {
-  //       listName: "Packages",
-  //       src: "/NavPackages.svg",
-  //       srcAlt: "NavPackages",
-  //     },
-  //   ];
+  
 
   function handleLocation() {
     setShowLocationModal(true);
+    // console.log("clicked");
+  }
+  function handleLogin() {
+    setShowLoginModal(true);
     // console.log("clicked");
   }
 
@@ -187,6 +177,7 @@ export default function Navbar() {
             )}
           </div>
           <Button
+          onClick={handleLogin}
             style=" font-bold bg-red text-white  text-[14px] rounded-[5px]  md:text-[14px]"
             value="Login"
           />

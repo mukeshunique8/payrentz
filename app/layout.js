@@ -15,12 +15,13 @@ const raleway = Raleway({ subsets: ["latin"] });
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      
       <body className={raleway.className}>
         <NextTopLoader speed={500} color="#2B5CAB" height={5}/>
         <AppProvider>
           <ModalWrapper>
             <div className="w-full  relative mx-auto bg-white">
-              <div className="flex flex-col sticky top-0 z-[50] bg-white">
+              <div className="flex flex-col sticky top-0 z-[30] bg-white">
               <Navbar />
               <Navbar2 />
               </div>

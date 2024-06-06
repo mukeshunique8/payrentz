@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import React, { useState } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import RoundImageCard from "../../UI Elements/RoundImageCard";
 import Button from "../../UI Elements/Button";
 
@@ -9,22 +8,43 @@ export default function Filter() {
   const { variant } = useParams();
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+  const params = useParams();
+  const category =params.variant
+  const filter = searchParams.get("filter");
+  const filters = filter ? filter.split(",") : ["All"];
+  // console.log(filters);
 
+  // Initialize selectedItems with filters
+  const [selectedItems, setSelectedItems] = useState(filters);
 
-  const RentItems = [
-    { name: "Refrigerator", imgsrc: "/CatRef.svg", imgalt: "CatRef" },
-    { name: "Television", imgsrc: "/CatTel.svg", imgalt: "Televisions" },
-    { name: "Mattresses", imgsrc: "/CatMat.svg", imgalt: "Mattresses" },
-    { name: "Cots", imgsrc: "/CatCot.svg", imgalt: "Cots" },
-    { name: "Air Conditioners", imgsrc: "/CatAir.svg", imgalt: "Air Conditioners" },
-    { name: "Washing Machines", imgsrc: "/CatWash.svg", imgalt: "Washing Machines" },
-  ];
-
-  const [selectedItems, setSelectedItems] = useState(["All"]);
   const [showAll, setShowAll] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
 
-  // console.log(selectedItems);
+ // Define RentItems with categories
+ const RentItems = [
+  { name: "Refrigerator", imgsrc: "/CatRef.svg", imgalt: "CatRef", category: "appliances" },
+  { name: "Air Conditioner", imgsrc: "/CatAir.svg", imgalt: "Air Conditioners", category: "appliances" },
+  { name: "Television", imgsrc: "/CatTel.svg", imgalt: "Televisions", category: "appliances" },
+  { name: "Washing Machine", imgsrc: "/CatWash.svg", imgalt: "Washing Machines", category: "appliances" },
+  { name: "Microwave", imgsrc: "/CatWash.svg", imgalt: "Microwave", category: "appliances" },
+  { name: "Dining Table", imgsrc: "/CatMat.svg", imgalt: "Dining Table", category: "furniture" },
+  { name: "Sofa", imgsrc: "/CatSofa.svg", imgalt: "Sofa", category: "Sofa" },
+  { name: "Mattress", imgsrc: "/CatMat.svg", imgalt: "Mattresses", category: "furniture" },
+  { name: "Iron Cot", imgsrc: "/CatCot.svg", imgalt: "Iron Cot", category: "furniture" },
+  { name: "Coffee Table", imgsrc: "/CatCot.svg", imgalt: "Coffee Table", category: "furniture" },
+  { name: "Wooden Cot", imgsrc: "/CatCot.svg", imgalt: "Wooden Cot", category: "furniture" },
+  { name: "TV Unit", imgsrc: "/CatTVUnit.webp", imgalt: "TV Unit", category: "furniture" },
+  { name: "Exercise Bike", imgsrc: "/CatBike.webp", imgalt: "Exercise Bike", category: "fitness" },
+  // { name: "Treadmill", imgsrc: "/CatTread.web", imgalt: "Treadmill", category: "combo" },
+  // { name: "Treadmill", imgsrc: "/CatTread.web", imgalt: "Treadmill", category: "combo" },
+  // { name: "Treadmill", imgsrc: "/CatTread.web", imgalt: "Treadmill", category: "combo" },
+  // { name: "Treadmill", imgsrc: "/CatTread.web", imgalt: "Treadmill", category: "combo" },
+];
+
+  // Filter items based on the category from URL params
+  const filteredItems = RentItems.filter(item => item.category === category);
+  // console.log(filteredItems);
 
   const handleShowAll = () => {
     setShowAll(prev => !prev);
@@ -34,33 +54,41 @@ export default function Filter() {
     setShowFilter(prev => !prev);
   };
 
- const toggleSelection = (name) => {
-  let updatedSelectedItems;
-  if (name === "All") {
-    updatedSelectedItems = selectedItems.includes("All") ? [] : ["All"];
-  } else {
-    updatedSelectedItems = selectedItems.includes(name)
-      ? selectedItems.filter(item => item !== name)
-      : selectedItems.includes("All")
-        ? [name]
-        : [...selectedItems, name];
-  }
-  setSelectedItems(updatedSelectedItems);
-  console.log(updatedSelectedItems);
+  const toggleSelection = (name) => {
+    let updatedSelectedItems;
+    
+    if (name === "All") {
+      updatedSelectedItems = selectedItems.includes("All") ? [] : ["All"];
+    } else {
+      if (selectedItems.includes(name)) {
+        updatedSelectedItems = selectedItems.filter(item => item !== name);
+      } else {
+        updatedSelectedItems = selectedItems.includes("All") ? [name] : [...selectedItems, name];
+      }
 
-  // Construct the query string based on the updated selected items
-  const selectedQuery = updatedSelectedItems.includes("All") ? "" : `filter=${updatedSelectedItems}`;
-  const query = `sub_category=${selectedQuery}`;
+      // Check if all individual items are selected
+      const allItemsSelected = filteredItems.every(item => updatedSelectedItems.includes(item.name));
+      if (allItemsSelected) {
+        updatedSelectedItems = ["All"];
+      }
+    }
+      // Default to the first item if nothing is selected
+      if (updatedSelectedItems.length === 0 && filteredItems.length > 0) {
+        updatedSelectedItems = [filteredItems[0].name];
+      }
 
- 
-  router.push(`/${variant}?${selectedQuery}`)
-  // console.log("click");
-};
+    setSelectedItems(updatedSelectedItems);
+    console.log(updatedSelectedItems);
 
+    // Construct the query string based on the updated selected items
+    const selectedQuery = updatedSelectedItems.includes("All") ? "" : `filter=${updatedSelectedItems.join(",")}`;
+    router.push(`/${variant}?${selectedQuery}`);
+  };
 
-  const renderCategory = RentItems.slice(0, showAll ? RentItems.length : 3).map((item, index) => (
+  const renderCategory = filteredItems.slice(0, showAll ? filteredItems.length : 3).map((item, index) => (
     <RoundImageCard
       key={index}
+      hover=" hover:scale-110 hover:transition-all hover:duration-700"
       imgsrc={item.imgsrc}
       imgalt={item.imgalt}
       name={item.name}
@@ -86,7 +114,9 @@ export default function Filter() {
   );
 
   return (
+
     <div className="flex w-full mx-auto justify-center items-center max-w-[1440px]">
+    {filteredItems.length >1 &&
       <div className="w-full md:px-[60px] flex flex-col justify-center items-center md:items-start md:justify-start">
         {/* Filter Section */}
         <div className="flex flex-col md:flex-row justify-start md:justify-between items-start md:items-center md:gap-[30px] md:w-full w-[90%] border-t-0 border-l-0 border-r-0 border-[1px] overflow-scroll no-scrollbar border-b-gray py-[20px]">
@@ -104,6 +134,8 @@ export default function Filter() {
               onClick={() => toggleSelection("All")}
             />
             {renderCategory}
+            {filteredItems.length>3 &&
+            
             <RoundImageCard
               imgsrc="/CatRef.svg"
               imgalt="CatRef"
@@ -113,13 +145,15 @@ export default function Filter() {
               imgStyle="bg-black bg-opacity-40"
               imgGrad={true}
               onClick={handleShowAll}
-              imgContent={showAll ? "" : RentItems.length}
+              imgContent={showAll ? "" : filteredItems.length-3}
             />
+          }
           </div>
 
-          <div className="hidden md:flex">{renderFilterButton}</div>
+          {/* <div className="hidden md:flex">{renderFilterButton}</div> */}
         </div>
       </div>
+  }
     </div>
   );
 }

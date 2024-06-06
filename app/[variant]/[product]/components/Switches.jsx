@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import Accordions from "../../../UI Elements/Accordians";
 
-export default function Switches() {
+export default function Switches({ item }) {
+  console.log(item?.description);
 
   const [activeSection, setActiveSection] = useState("description");
   const descriptionRef = useRef(null);
@@ -27,30 +28,30 @@ export default function Switches() {
         break;
     }
   };
-    const specs = [
+  const specs = [
     {
       title: "Product Name",
-      spec: "Laptop",
+      spec: item?item.identity:"",
     },
     {
       title: "Configuration",
-      spec: "i5, 4GB RAM, 320GB HD",
+      spec: item?item.Configuration:"",
     },
     {
       title: "Screen Size",
-      spec: "14” and above",
+      spec: item?item.Screen:"",
     },
     {
       title: "Brand",
-      spec: "Leading Brands/Based on Availability",
+      spec: item?item.Brand:"",
     },
     {
       title: "Color",
-      spec: "May vary/Based on Availability",
+      spec: item?item.Color:"",
     },
     {
       title: "Transport",
-      spec: "Covered in Handling Charges",
+      spec: item?item.Transport:"",
     },
   ];
 
@@ -67,7 +68,7 @@ export default function Switches() {
       Answer:
         "PayRentz products can be rented for a minimum period of 3 months. PayRentz products can be rented for a minimum,",
     },
-    
+
     {
       Id: 3,
       Question: "How can I terminate the agreement ?",
@@ -80,7 +81,6 @@ export default function Switches() {
       Answer:
         "Clients are encouraged to pay rent for the products on or before 7th of every month. Kindly refer to the product categories listed along with rent details in the website. Rent will be communicated without any ambiguity at the time of delivery and it will be documented in the application form.",
     },
-    
   ];
 
   const renderSpecs = specs.map((item, index) => (
@@ -101,49 +101,64 @@ export default function Switches() {
   return (
     <div className="w-full mx-auto   max-w-[1440px] flex flex-col justify-center items-start ">
       <div className="w-full flex flex-col justify-center">
-      <div className="lg:flex hidden px-[10px] border-b-[1px] border-blue justify-between items-center py-[20px] font-semibold text-base leading-[18px]">
+        <div className="lg:flex hidden px-[10px] border-b-[1px] border-blue justify-between items-center py-[20px] font-semibold text-base leading-[18px]">
           <h3
             onClick={() => handleSectionClick("description")}
-            className={`cursor-pointer ${activeSection === "description" && "text-blue font-bold"}`}
+            className={`cursor-pointer ${
+              activeSection === "description" && "text-blue font-bold"
+            }`}
           >
             Description
           </h3>
           <h3
             onClick={() => handleSectionClick("specs")}
-            className={`cursor-pointer ${activeSection === "specs" && "text-blue font-bold"}`}
+            className={`cursor-pointer ${
+              activeSection === "specs" && "text-blue font-bold"
+            }`}
           >
             Specifications
           </h3>
           <h3
             onClick={() => handleSectionClick("faq")}
-            className={`cursor-pointer ${activeSection === "faq" && "text-blue font-bold"}`}
+            className={`cursor-pointer ${
+              activeSection === "faq" && "text-blue font-bold"
+            }`}
           >
             Frequently Asked Questions
           </h3>
         </div>
 
-        <div ref={descriptionRef} className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] lg:gap-[30px]  lg:py-[40px]">
+        <div
+          ref={descriptionRef}
+          className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] lg:gap-[30px]  lg:py-[40px]"
+        >
           <h2 className="font-extrabold text-blue text-[16px] lg:text-[24px]">
             Description
           </h2>
-          <p className="font-medium text-b1 text-[14px] lg:text-[16px]">
-            PayRentz offers Core i5 laptop on rental in Chennai with complete
-            service backup. Laptop computer is compact and help people on the
-            move to carry to office or client meetings. Laptops have replaced
-            most of the desktops due to its design, powerful configurations,
-            light weight and portable. Such mobile friendly laptops can be
-            rented from PayRentz in Chennai. Renting laptops is sensible
-            decision because service is on us, need not to invest in a
-            technology that will obsolete, your business can be asset light and
-            upgrade the laptop. PayRentz offers laptop for rent with standard
-            configurations & customization. With simple documentation, online
-            payment options, on time delivery, service backup rental laptops
-            from PayRentz is highly convenient. Processor i5, 4GB RAM, 320/500
-            GB HDD is suitable for profiles that need fast PC's customization
-            also available.
-          </p>
+
+          <div className="font-medium text-b1 text-[14px] lg:text-[16px]">
+            {item?.description ? (
+              <div dangerouslySetInnerHTML={{ __html: item.description }} />
+            ) : (
+              <p>
+                PayRentz offers high-quality electronic devices and appliances
+                on rental with complete service backup. Our products are
+                designed for portability, power, and efficiency, making them
+                ideal for both personal and professional use. Whether you need a
+                laptop with powerful configurations, home appliances, or other
+                electronic devices, PayRentz ensures you get the best equipment
+                with standard configurations and customization options
+                available. Renting from PayRentz means no heavy investments,
+                easy upgrades, and comprehensive service support, including
+                delivery, pickup, installation, and maintenance.
+              </p>
+            )}
+          </div>
         </div>
-        <div ref={specsRef} className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] lg:gap-[30px]  lg:py-[40px]">
+        <div
+          ref={specsRef}
+          className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] lg:gap-[30px]  lg:py-[40px]"
+        >
           <h2 className="font-extrabold text-blue text-[16px] lg:text-[24px]">
             Specifications
           </h2>
@@ -151,7 +166,10 @@ export default function Switches() {
           <div className="flex w-full flex-col">{renderSpecs}</div>
         </div>
 
-        <div ref={faqRef} className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] lg:gap-[30px]  lg:py-[40px]">
+        <div
+          ref={faqRef}
+          className="flex flex-col border-b-[1px] border-blue justify-center items-start py-[20px]  gap-[20px] lg:gap-[30px]  lg:py-[40px]"
+        >
           <h2 className="font-extrabold text-blue text-[16px] lg:text-[24px]">
             Frequently Asked Questions
           </h2>
@@ -165,8 +183,6 @@ export default function Switches() {
             />
           </div>
         </div>
-
-       
       </div>
     </div>
   );

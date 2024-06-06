@@ -17,47 +17,65 @@ import { useRouter, useParams, useSearchParams } from "next/navigation";
 
 export default function Page() {
   const [variantAll, setVariantAll] = useState([]);
-  
-  const { variant,product } = useParams();
-  const itemName = product
-  const item = variantAll.find((item)=> item.slug === itemName)
+  const [item, setItem] = useState(null);
+  const [itemDetails, setItemDetails] = useState(null);
+  const [error, setError] = useState(null);
 
-
-  console.log(item);
+  const { variant, product } = useParams();
+  const itemName = product;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await BASEURL.get("web/variant/list-all/");
         const data = response.data.data.results;
-        // console.log(data);
         setVariantAll(data);
-        // console.log(data);
       } catch (err) {
         console.log(err);
+        setError("Failed to fetch variants");
       }
     };
     fetchData();
   }, []);
 
-  console.log(variantAll);
+  useEffect(() => {
+    const foundItem = variantAll.find((item) => item.slug === itemName);
+    setItem(foundItem);
+  }, [variantAll, itemName]);
 
+  useEffect(() => {
+    if (item && item.slug) {
+      const fetchItemDetails = async () => {
+        try {
+          const response = await BASEURL.get(`web/variant/detail/${item.slug}/`);
+          const itemDetails = response.data;
+          setItemDetails(itemDetails);
+        } catch (err) {
+          console.log(err);
+          setError("Failed to fetch item details");
+        }
+      };
+      fetchItemDetails();
+    }
+  }, [item]);
+
+  console.log(itemDetails);
   return (
     <div className="relative">
-      <Path  />
-      <FixedLayout item={item} />
+      <Path />
+      <FixedLayout item={itemDetails} />
+
       <div className="w-full px-[20px] md:hidden flex justify-center items-center">
         <PinCode />
       </div>
 
       {/* <Switches /> */}
-      <div className="flex flex-col max-w-[1440px] mx-auto overflow-hidden  justify-center items-start pt-[20px] lg:pt-[40px]">
+      <div className="flex flex-col max-w-[1440px] mx-auto overflow-hidden justify-center items-start pt-[20px] lg:pt-[40px]">
         <h2 className="font-extrabold md:px-[60px] px-[20px] text-blue text-[16px] lg:text-[24px]">
           People Also Rented
         </h2>
         <div>
-
-      <Display slider={true}  style="overflow-x-scroll no-scrollbar" ads={variantAll} />
+          <Display slider={true} style="overflow-x-scroll no-scrollbar" ads={variantAll} />
         </div>
       </div>
 

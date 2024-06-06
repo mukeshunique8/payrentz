@@ -1,14 +1,13 @@
 import { createContext, useState, useEffect } from "react";
-import BASEURL from "../API"
+import BASEURL from "../API";
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-
-  
-
-  const [pincode, setPincode] = useState("600001");
+  const [pincode, setPincode] = useState("600012");
   const [city, setCity] = useState("Chennai");
+  const [ showModal,setShowModal] = useState(null);
   const [showLocationModal, setShowLocationModal] = useState(null);
+  const [showLoginModal, setShowLoginModal] = useState(null);
 
   const [cart, setCart] = useState(() => {
     if (typeof window !== "undefined") {
@@ -20,8 +19,6 @@ export const AppProvider = ({ children }) => {
     }
   });
 
-  
- 
   const state = city !== "Banglore" ? "Tamil Nadu" : "Karnataka";
   const [address, setAddress] = useState({
     addressLine1: "",
@@ -55,7 +52,9 @@ export const AppProvider = ({ children }) => {
   }, [cart]);
 
   const addToCart = (item) => {
-    const existingItemIndex = cart.findIndex((cartItem) => cartItem.id === item.id);
+    const existingItemIndex = cart.findIndex(
+      (cartItem) => cartItem.id === item.id
+    );
     if (existingItemIndex !== -1) {
       // Item already exists, update quantity and tenure
       const updatedCart = [...cart];
@@ -71,7 +70,9 @@ export const AppProvider = ({ children }) => {
   const updateCartItem = (itemId, newQuantity, newTenure) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity, tenure: newTenure } : item
+        item.id === itemId
+          ? { ...item, quantity: newQuantity, tenure: newTenure }
+          : item
       )
     );
   };
@@ -106,6 +107,7 @@ export const AppProvider = ({ children }) => {
         setPincode: handleSetPincode,
         city,
         setCity: handleSetCity,
+        showModal,setShowModal,
         showLocationModal,
         setShowLocationModal,
         cart,
@@ -114,6 +116,8 @@ export const AppProvider = ({ children }) => {
         removeFromCart,
         address,
         updateAddress,
+        showLoginModal,
+        setShowLoginModal,
       }}
     >
       {showLocationModal !== null && children}

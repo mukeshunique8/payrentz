@@ -54,6 +54,7 @@ export default function Category() {
   const renderCategory = RentItems.map((item, index) => (
     <RoundImageCard
     onClick={()=>handleRoute(item.name)}
+    hover=" hover:scale-110 hover:transition-all hover:duration-700"
       key={index}
       imgsrc={item.imgsrc}
       imgalt={item.imgalt}

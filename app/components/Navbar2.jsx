@@ -23,22 +23,23 @@ export default function Navbar2() {
   }, []);
 
   const Appliances = [
-    "Refrigerators",
-    "Washing Machines",
-    "Mattresses",
-    "Cots",
-    "Air Conditioners",
-    "Sofas",
-    "Televisions",
-    "Laptops",
+    "Refrigerator",
+    "Washing Machine",
+    "Mattress",
+    "Wooden Cot",
+    "Air Conditioner",
+    "Sofa",
+    "Television",
+    "Laptop",
   ];
 const router = useRouter()
   function handleRoute(list) {
-    if (list === "Cots" ||  list === "Sofas"||list === "Mattresses") {
+    if (list === "Wooden Cot" ||  list === "Sofa"||list === "Mattress") {
 
-      router.push(`/furniture`);
+     const path = router.push(`/furniture?filter=${list}`);
+      
     }else
-    router.push(`/appliances`);
+    router.push(`/appliances?filter=${list}`);
     // console.log("cli");
    }
  
