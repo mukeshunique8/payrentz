@@ -83,7 +83,7 @@ export default function Footer() {
               <h2 className="text-[20px] text-white font-bold">Company</h2>
               <div className="flex flex-col md:grid md:grid-cols-2 text-[16px] lg:gap-[30px] gap-[20px] text-white font-medium">
                 {companyLinks.map((link, index) => (
-                  <a className="cursor-pointer" onClick={() => handleLinks(link)} key={index}>
+                  <a className="cursor-pointer hover:scale-95 transition-all  duration-500" onClick={() => handleLinks(link)} key={index}>
                     {link}
                   </a>
                 ))}
@@ -94,7 +94,7 @@ export default function Footer() {
               <h2 className="text-[20px] text-white font-bold">Categories</h2>
               <div className="flex flex-col md:grid md:grid-cols-2 text-[16px] lg:gap-[30px] gap-[20px] text-white font-medium">
                 {categoryLinks.map((link, index) => (
-                  <a  className="cursor-pointer" onClick={()=>handleCat(link)} key={index}>{link}</a>
+                  <a  className="cursor-pointer hover:scale-95 transition-all  duration-500 " onClick={()=>handleCat(link)} key={index}>{link}</a>
                 ))}
               </div>
             </div>

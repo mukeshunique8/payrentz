@@ -10,9 +10,9 @@ export default function Login({ onClose }) {
 
   const [mobileNumber, setMobileNumber] = useState("");
   const [OTP, setOTP] = useState("");
-  const [showMobileNumber, setShowMobileNumber] = useState(false);
+  const [showMobileNumber, setShowMobileNumber] = useState(true);
   const [showOTP, setShowOTP] = useState(false);
-  const [user,setuser] = useState(true)
+  const [user,setuser] = useState(false)
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { showLocationModal,

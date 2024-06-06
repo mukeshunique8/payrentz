@@ -3,8 +3,12 @@ import Card from "../UI Elements/Card";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 import { FaChevronCircleLeft } from "react-icons/fa";
 import { FaChevronCircleRight } from "react-icons/fa";
+import NotFound from "./NotFound";
 
 export default function Display({ ads, style = "flex-wrap", slider = false }) {
+
+  console.log(ads);
+  console.log("No data")
   const router = useRouter();
   const params = useSearchParams();
   const { variant } = useParams();
@@ -37,7 +41,7 @@ export default function Display({ ads, style = "flex-wrap", slider = false }) {
     <div className="relative w-full  mx-auto justify-center items-center max-w-[1440px] pt-[25px] pb-[35px] md:pt-[37px] md:pb-[50px] px-[10px] lg:px-[60px]">
       <div
         ref={containerRef}
-        className={`flex  justify-around items-center gap-[20px] md:gap-[40px] ${style}`}
+        className={`flex justify-center  md:justify-start items-center gap-[20px] md:gap-[40px] ${style}`}
       >
         {ads.map((ad, index) => (
           <Card
@@ -68,6 +72,11 @@ export default function Display({ ads, style = "flex-wrap", slider = false }) {
           </div>
         </div>
       )}
+
+      {/* NOT FOUND */}
+
+      {(!ads || ads.length === 0) && <NotFound/>}
+
     </div>
   );
 }

@@ -6,48 +6,22 @@ import { useRouter } from "next/navigation";
 export default function Category() {
 
   const RentItems = [
-    {
-      name: "Refrigerators",
-      imgsrc: "/CatRef.svg",
-      imgalt: "CatRef",
-    },
-    
-    {
-      name: "Washing Machines",
-      imgsrc: "/CatWash.svg",
-      imgalt: "Washing Machines",
-    },
-    {
-      name: "Mattresses",
-      imgsrc: "/CatMat.svg",
-      imgalt: "Mattresses",
-    },
-    
-    {
-      name: "Cots",
-      imgsrc: "/CatCot.svg",
-      imgalt: "Cots",
-    },
-    {
-      name: "Air Conditioners",
-      imgsrc: "/CatAir.svg",
-      imgalt: "Air Conditioners",
-    },
-    {
-      name: "Televisions",
-      imgsrc: "/CatTel.svg",
-      imgalt: "Televisions",
-    },
-  ];
+    { name: "Refrigerator", imgsrc: "/CatRef.svg", imgalt: "CatRef", category: "appliances" },
+    { name: "Air Conditioner", imgsrc: "/CatAir.svg", imgalt: "Air Conditioners", category: "appliances" },
+    { name: "Television", imgsrc: "/CatTel.svg", imgalt: "Televisions", category: "appliances" },
+    { name: "Washing Machine", imgsrc: "/CatWash.svg", imgalt: "Washing Machines", category: "appliances" },
+    { name: "Microwave", imgsrc: "/CatWash.svg", imgalt: "Microwave", category: "appliances" },
+    { name: "Dining Table", imgsrc: "/CatMat.svg", imgalt: "Dining Table", category: "furniture" },]
 
   const router = useRouter()
   function handleRoute(item) {
-    if (item === "Cots" ||  item === "Sofas"||item === "Mattresses") {
-
-      router.push(`/Furniture`);
+    if (item === "Wooden Cot" ||  item === "Sofa"||item === "Mattress") {
+      console.log(item.name)
+      router.push(`/furniture?filter=${item}`);
     }else
-    router.push(`/Appliances`);
+    router.push(`/appliances?filter=${item}`);
     // console.log("cli");
+    console.log(item)
    }
  
 
