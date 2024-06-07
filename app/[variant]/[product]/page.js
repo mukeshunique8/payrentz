@@ -20,6 +20,7 @@ export default function Page() {
   const [item, setItem] = useState(null);
   const [itemDetails, setItemDetails] = useState(null);
   const [error, setError] = useState(null);
+  const [cartAPI,setCartAPI] = useState()
 
   const { variant, product } = useParams();
   const itemName = product;
@@ -59,7 +60,29 @@ export default function Page() {
     }
   }, [item]);
 
-  console.log(itemDetails);
+  // console.log(itemDetails);
+
+  // useEffect(()=>{
+  //   const  fetchCart = async()=>{
+
+    
+  //     try{
+  //       const response = await BASEURL.get("web/cart/list/")
+  //       setCartAPI(response.data)
+  //       console.log(cartAPI);
+          
+  //     }catch(err){
+  //       console.log(err);
+  //     }
+  
+  //   }
+
+  //   fetchCart();
+  // },[])
+
+
+ 
+
   return (
     <div className="relative">
       <Path />

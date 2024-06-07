@@ -7,8 +7,8 @@ import NotFound from "./NotFound";
 
 export default function Display({ ads, style = "flex-wrap", slider = false }) {
 
-  console.log(ads);
-  console.log("No data")
+  // console.log(ads);
+  // console.log("No data")
   const router = useRouter();
   const params = useSearchParams();
   const { variant } = useParams();

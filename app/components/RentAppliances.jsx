@@ -16,7 +16,7 @@ export default function RentAppliances({data}) {
 
         
       </div>
-      <Display  slider={true}  style="overflow-x-scroll flex-row-reverse no-scrollbar" ads={data} />
+      <Display  slider={true}  style="overflow-x-scroll  no-scrollbar" ads={data} />
     </div>
   );
 }

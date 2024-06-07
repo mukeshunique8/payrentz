@@ -12,10 +12,17 @@ import { AppContext } from "../app/contexts/AppContext";
 import BASEURL from "./API";
 
 export default function Page() {
-  const { showLocationModal } = useContext(AppContext);
+  const { showLocationModal,setShowLocationModal } = useContext(AppContext);
   const [variantAll, setVariantAll] = useState([]);
 
   useEffect(() => {
+
+    const storedPincode = localStorage.getItem("pincode");
+    const storedBrowserId = localStorage.getItem("browser_id");
+    const storedGuestId = localStorage.getItem("guest_uuid");
+   
+  setShowLocationModal(!(storedPincode && storedGuestId && storedBrowserId));
+
     const fetchData = async () => {
       try {
         const response = await BASEURL.get("web/variant/list-all/");
@@ -33,9 +40,9 @@ export default function Page() {
         //   badgeBgColor: "bg-lblue",
         // }));
 
-        console.log(data);
+        // console.log(data);
         setVariantAll(data);
-        console.log(data);
+        // console.log(data);
       } catch (err) {
         console.log(err);
       }

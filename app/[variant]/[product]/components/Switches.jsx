@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Accordions from "../../../UI Elements/Accordians";
 
 export default function Switches({ item }) {
-  console.log(item?.description);
+  // console.log(item?.description);
 
   const [activeSection, setActiveSection] = useState("description");
   const descriptionRef = useRef(null);

@@ -1,17 +1,25 @@
 import React, { useContext } from "react";
 import Button from "./Button";
 import { AppContext } from "../contexts/AppContext";
+import BASEURL from "../API";
 
-export default function BottomBar({ item }) {
+export default function BottomBar({item, addCartItems,removeCartItems  }) {
   const { cart, addToCart, removeFromCart } = useContext(AppContext);
+  const guest_uuid = localStorage.getItem("guest_uuid");
+  // console.log(guest_uuid);
 
-  const isInCart = item ? cart.some((cartItem) => cartItem.id === item.id) : false;
+  
+  const isInCart = item ? cart.some((cartItem) => cartItem.uuid === item.uuid) : false;
+
+  // console.log(isInCart);
 
   const handleToggleCart = () => {
     if (isInCart) {
-      removeFromCart(item.id);
+      // removeFromCart(item.id);
+      removeCartItems()
     } else {
-      addToCart(item);
+      addCartItems();
+      // addToCart(item);
     }
   };
 

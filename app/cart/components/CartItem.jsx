@@ -7,7 +7,9 @@ import { AppContext } from "../../contexts/AppContext";
 function CartItem({ item }) {
   const { updateCartItem, removeFromCart } = useContext(AppContext);
 
-  console.log(item.tenure);
+  // console.log(item);
+
+  // console.log(item.tenure);
   const handleQuantityChange = (change) => {
     const newQuantity = item.quantity + change;
     if (newQuantity >= 1 && newQuantity <= 3) {
@@ -24,8 +26,8 @@ function CartItem({ item }) {
       <div className="relative w-[130px] h-[116px]">
         <Image
           className="object-cover rounded-[3px]"
-          src={item.imgSrc}
-          alt={item.title}
+          src={item?.image ||"/PH_Card_Image.jpg"}
+          alt={item?.identity  }
           fill
           sizes="100%"
         />
@@ -33,24 +35,26 @@ function CartItem({ item }) {
 
       <div className="w-full flex flex-col gap-[10px]">
         <p className="text-[10px] cursor-pointer md:text-[18px] font-bold text-b1 md:leading-[21px] truncate text-ellipsis overflow-hidden">
-          {item.title}
+          {item?.identity}
         </p>
         <p className="text-[14px] cursor-pointer md:text-[24px] font-extrabold text-b2 md:leading-[28px]">
-          ₹{item.price}
+          ₹{item?.rent}
           <span className="text-[11px] md:text-[16px] font-medium text-b3">
             /month
           </span>
         </p>
         <p className="font-medium text-base text-b2">
           Refundable Deposit:{" "}
-          <span className="font-bold text-base text-b2">₹{item.deposit}</span>
+          <span className="font-bold text-base text-b2">₹{item?.deposit}</span>
         </p>
-        <p className="font-medium text-base text-b2">
+        { item?.deliveryTime &&
+          <p className="font-medium text-base text-b2">
           Delivery in{" "}
           <span className="font-bold underline underline-offset-2 text-base text-blue">
-            {item.deliveryTime}
+            {item?.deliveryTime}
           </span>
         </p>
+        }
         <div className="flex  flex-col sm:flex-row items-start justify-start lg:items-center gap-[20px] sm:gap-[35px] w-full ">
           <div className="flex justify-start gap-[13px] items-center">
             <h3 className="font-semibold text-base text-b2">Quantity</h3>
@@ -65,7 +69,7 @@ function CartItem({ item }) {
                 <CiCircleMinus color={item.quantity === 1 ? "gray" : "black"} size={25} />
               </button>
               <div className="w-[40px] border-[1px] border-gray rounded-[5px] h-[30px] flex justify-center items-center">
-                <p>{item.quantity}</p>
+                <p>{item?.quantity}</p>
               </div>
               <button
                 onClick={() => handleQuantityChange(1)}
@@ -84,7 +88,7 @@ function CartItem({ item }) {
               variant="outline"
               value={item.tenure}
               onChange={handleTenureChange}
-             placeholder={item.tenure}
+             placeholder={item?.tenure}
               icon={<></>}
             >
               <option value="12+ months">12+ months</option>
@@ -96,7 +100,7 @@ function CartItem({ item }) {
         </div>
       </div>
       <button
-        onClick={() => removeFromCart(item.id)}
+        onClick={() => removeFromCart(item)}
         className="text-b1 right-[10px] absolute lg:relative hover:font-extrabold hover:transition-all hover:duration-75  hover:text-red"
       >
         Remove

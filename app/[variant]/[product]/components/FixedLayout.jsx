@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import TenureCard from "../../../UI Elements/TenureCard";
 import RoundImageCard from "../../../UI Elements/RoundImageCard";
@@ -9,8 +9,16 @@ import PinCode from "../../../UI Elements/PinCode";
 import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Switches from "./Switches";
+import BASEURL from "../../../API";
+import { AppContext } from "../../../contexts/AppContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function FixedLayout({ item }) {
+  // const notify = () => toast("Item Added To Cart!");
+  
+
+  const [loading, setLoading] = useState(false);
   const [sliderRef] = useKeenSlider({
     loop: true,
   });
@@ -23,6 +31,7 @@ export default function FixedLayout({ item }) {
     tenures.push({
       months: "1 month+",
       price: "₹" + item?.rent_1,
+      value: "1",
     });
   }
 
@@ -30,6 +39,7 @@ export default function FixedLayout({ item }) {
     tenures.push({
       months: "3+ months",
       price: "₹" + item?.rent_3,
+      value: "3",
     });
   }
 
@@ -37,6 +47,7 @@ export default function FixedLayout({ item }) {
     tenures.push({
       months: "6+ months",
       price: "₹" + item?.rent_6,
+      value: "6",
     });
   }
 
@@ -45,29 +56,112 @@ export default function FixedLayout({ item }) {
       months: "12+ months",
       price: "₹" + item?.rent_12,
       badge: true,
+      value: "12",
     });
   }
 
   // Set the initial selectedTenure state to the first available tenure
   const initialTenure = tenures.length > 0 ? tenures[tenures.length - 1] : null;
   const [selectedTenure, setSelectedTenure] = useState(initialTenure);
+  const guest_uuid = localStorage.getItem("guest_uuid");
 
+  const { cart, setCart } = useContext(AppContext);
+
+  // console.log(APICart);
+  // console.log(initialTenure);
   // Update selectedTenure when the item changes
+
   useEffect(() => {
     setSelectedTenure(initialTenure);
   }, [item]);
 
-  const cartItem = {
-    id: item?.uuid,
-    imgSrc: item?.image_detail?.[0]?.file || "/PH_Card_Image.jpg",
-    title: item?.identity,
-    price: item?.rent_1,
-    deposit: item?.deposit_1,
-    deliveryTime: "2-3 days after KYC",
-    quantity: 1,
-    tenure: selectedTenure?.months,
+  const toaster1 = () => {
+    toast.warn("Item removed from cart", {
+      position: "bottom-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      
+    });
+  };
+  
+  const toaster2 = () => {
+    toast.success("Item added to cart", {
+      position: "bottom-center",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+     
+    });
   };
 
+  console.log(item);
+
+  const addCartItems = async () => {
+    try {
+      const response = await BASEURL.post("web/add-to-cart/", {
+        uuid: item?.uuid, //varinat uuid or accessories uuid or combo uuid
+        guest_uuid: guest_uuid,
+        change: "add", //remove or delete
+        tenure: selectedTenure.value,
+        type: item?.data_type,
+      });
+      console.log(response.data);
+      await fetchCartData();
+      toaster2()
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const removeCartItems = async () => {
+    try {
+      const response = await BASEURL.post("web/add-to-cart/", {
+        uuid: item?.uuid, //varinat uuid or accessories uuid or combo uuid
+        guest_uuid: guest_uuid,
+        change: "delete", //remove or delete
+        tenure: selectedTenure.value,
+        type: item?.data_type,
+      });
+
+      console.log(response.data);
+      await fetchCartData();
+      toaster1()
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // const tenureChange = async () => {
+  //   try {
+  //     const response = await BASEURL.put(`web/cart/change-tenure/`, {
+  //       guest_id: guest_uuid,
+  //       tenure: selectedTenure.value,
+  //     });
+  //     console.log(response.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
+  const fetchCartData = async () => {
+    try {
+      const response = await BASEURL.get(
+        `web/cart/list/?guest_uuid=${guest_uuid}`
+      );
+      setCart(response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // console.log(cart);
+  // console.log(item);
   const image_detail = item?.image_detail;
   const images = image_detail?.map((img) => img?.file);
 
@@ -106,6 +200,7 @@ export default function FixedLayout({ item }) {
 
   const handleSelect = (tenure) => {
     setSelectedTenure(tenure);
+    // tenureChange();
   };
 
   const renderTenures = tenures.map((tenure, index) => (
@@ -152,7 +247,18 @@ export default function FixedLayout({ item }) {
   ));
 
   return (
-    <div className="w-full md:bg-transparent flex flex-col lg:flex-row max-w-[1440px] lg:gap-[30px] mx-auto md:pt-[20px] md:px-[60px]">
+    <div className="w-full md:bg-transparent relative flex flex-col lg:flex-row max-w-[1440px] lg:gap-[30px] mx-auto md:pt-[20px] md:px-[60px]">
+      <ToastContainer
+        className="toaster-container"
+        position="bottom-center"
+        autoClose={3000}
+        rtl={false}
+        pauseOnFocusLoss
+        hideProgressBar={true}
+        draggable
+        limit={1}
+      />
+
       {/* Left Side: Images */}
       <div className="w-full flex flex-col items-center justify-center lg:w-[50%] place-items-center md:justify-start md:items-center md:gap-[20px]">
         <div
@@ -161,10 +267,10 @@ export default function FixedLayout({ item }) {
         >
           {renderImages}
           <div className="absolute bottom-[5%] left-[50%] -translate-x-[50%] gap-3 hidden md:flex md:gap-[10px]">
-          {renderSmallImages}
+            {renderSmallImages}
+          </div>
         </div>
-        </div>
-       
+
         <div className="hidden bg-white justify-center items-center lg:flex">
           <Switches item={item} />
         </div>
@@ -181,7 +287,10 @@ export default function FixedLayout({ item }) {
               <h3 className="flex md:hidden font-bold text-b1 text-[18px] py-[20px]">
                 Pick Tenure
               </h3>
-              <h3 className="flex font-bold text-blue text-[14px] underline underline-offset-2 self-end py-[20px]">
+              <h3
+                // onClick={notify}
+                className="flex cursor-pointer font-bold text-blue text-[14px] underline underline-offset-2 self-end py-[20px]"
+              >
                 Compare Tenures
               </h3>
             </div>
@@ -232,7 +341,12 @@ export default function FixedLayout({ item }) {
           </div>
 
           <div className="w-full hidden lg:flex justify-center items-center">
-            <BottomBar item={cartItem} />
+            <BottomBar
+              loading={loading}
+              item={item}
+              addCartItems={addCartItems}
+              removeCartItems={removeCartItems}
+            />
           </div>
         </div>
       </div>

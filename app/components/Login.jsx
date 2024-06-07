@@ -22,8 +22,9 @@ function handleLogOut(){
 
   const guest_uuid = localStorage.getItem("guest_uuid")
   console.log(guest_uuid);
-  localStorage.clear()
-  showMobileNumber()
+  localStorage.removeItem("userValidated")
+  setShowMobileNumber(true)
+  setuser(false)
   // C()
   // setShowLocationModal(true)
 }
@@ -60,8 +61,9 @@ function handleLogOut(){
     try {
       const response = await validateOTP(`+91${mobileNumber}`, OTP);
       if (response.status === "success") {
-        const token = response.data.token;
-        localStorage.setItem("token", token);
+        const token = response.status
+        localStorage.setItem("userValidated", true);
+       
         setShowMobileNumber(false);
         setuser(true)
         setShowOTP(false);
@@ -155,7 +157,7 @@ function handleLogOut(){
   );
    const guest_uuid = localStorage.getItem("guest_uuid").split("-")[2]
 
-   console.log(guest_uuid);
+  //  console.log(guest_uuid);
   const renderUser = (
    
     <div className="flex flex-col gap-[20px] w-full items-start justify-center">

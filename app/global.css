@@ -44,3 +44,10 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #011535; /* Change the color to a darker #2B5CAB */
 }
+.toaster-container .Toastify__toast {
+  background-color: #2B5CAB;
+  border-radius: 10px;
+  color: white;
+  font-size: 20px; 
+  font-weight: bold;
+}
