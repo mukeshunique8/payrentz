@@ -21,7 +21,7 @@ export default function Cart() {
   const [isPassed, setIsPassed] = useState(false);
   const [summary,setSummary] = useState(null)
 
-  console.log(cart);
+  // console.log(cart);
   function handleContinue() {
     if (showCart) {
       setShowCart(false);
@@ -61,12 +61,11 @@ export default function Cart() {
     if (!address.city) errors.city = "Please enter a valid city.";
     if (!address.state) errors.state = "Please enter a valid state.";
     if (!address.pincode) errors.pincode = "Please enter a valid pincode.";
-    if (!address.googleMapLink)
-      errors.googleMapLink = "Please enter a valid Google Map link.";
+    // if (!address.googleMapLink) errors.googleMapLink = "Please enter a valid Google Map link.";
     return errors;
   }
   // console.log(showCart, showAddress, showAccessories, showPayment);
-
+ 
   const guest_uuid = localStorage.getItem("guest_uuid");
   useEffect(() => {
     const orderSummary = async () => {

@@ -40,7 +40,7 @@ export default function Page() {
         //   badgeBgColor: "bg-lblue",
         // }));
 
-        // console.log(data);
+        console.log(data);
         setVariantAll(data);
         // console.log(data);
       } catch (err) {
@@ -50,6 +50,11 @@ export default function Page() {
     fetchData();
   }, []);
 
+  const rentAppliances = variantAll?.filter((item)=>{
+    return item?.category_detail?.identity === "Appliances"
+  })
+  // console.log(variantAll);
+  // console.log(rentAppliances);
   
   return (
     <div
@@ -65,7 +70,7 @@ export default function Page() {
       <Promise />
       <Category />
       <Explore />
-      <RentAppliances data={variantAll} />
+      <RentAppliances data={rentAppliances} />
       <ClientChronicles />
       <FAQ />
     </div>

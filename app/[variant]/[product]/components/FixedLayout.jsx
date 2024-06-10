@@ -13,7 +13,7 @@ import BASEURL from "../../../API";
 import { AppContext } from "../../../contexts/AppContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { addCartItems, removeCartItems } from "../../../cartUtils"
 export default function FixedLayout({ item }) {
   // const notify = () => toast("Item Added To Cart!");
   
@@ -67,10 +67,6 @@ export default function FixedLayout({ item }) {
 
   const { cart, setCart } = useContext(AppContext);
 
-  // console.log(APICart);
-  // console.log(initialTenure);
-  // Update selectedTenure when the item changes
-
   useEffect(() => {
     setSelectedTenure(initialTenure);
   }, [item]);
@@ -101,41 +97,58 @@ export default function FixedLayout({ item }) {
     });
   };
 
-  console.log(item);
+  // console.log(item);
 
-  const addCartItems = async () => {
-    try {
-      const response = await BASEURL.post("web/add-to-cart/", {
-        uuid: item?.uuid, //varinat uuid or accessories uuid or combo uuid
-        guest_uuid: guest_uuid,
-        change: "add", //remove or delete
-        tenure: selectedTenure.value,
-        type: item?.data_type,
-      });
-      console.log(response.data);
-      await fetchCartData();
-      toaster2()
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const removeCartItems = async () => {
-    try {
-      const response = await BASEURL.post("web/add-to-cart/", {
-        uuid: item?.uuid, //varinat uuid or accessories uuid or combo uuid
-        guest_uuid: guest_uuid,
-        change: "delete", //remove or delete
-        tenure: selectedTenure.value,
-        type: item?.data_type,
-      });
 
-      console.log(response.data);
-      await fetchCartData();
-      toaster1()
-    } catch (err) {
-      console.log(err);
-    }
+  const handleAddToCart = async () =>{
+    await addCartItems(item, guest_uuid, selectedTenure, fetchCartData, () => {
+      // Toaster callback function
+      console.log('Item added to cart');
+    });
+  }
+
+  const handleRemoveFromCart = async () => {
+    await removeCartItems(item, guest_uuid, selectedTenure, fetchCartData, () => {
+      // Toaster callback function
+      console.log('Item removed from cart');
+    });
   };
+
+ 
+
+  // const addCartItems = async () => {
+  //   try {
+  //     const response = await BASEURL.post("web/add-to-cart/", {
+  //       uuid: item?.uuid, //varinat uuid or accessories uuid or combo uuid
+  //       guest_uuid: guest_uuid,
+  //       change: "add", //remove or delete
+  //       tenure: selectedTenure.value,
+  //       type: item?.data_type,
+  //     });
+  //     console.log(response.data);
+  //     await fetchCartData();
+  //     toaster2()
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // const removeCartItems = async () => {
+  //   try {
+  //     const response = await BASEURL.post("web/add-to-cart/", {
+  //       uuid: item?.uuid, //varinat uuid or accessories uuid or combo uuid
+  //       guest_uuid: guest_uuid,
+  //       change: "delete", //remove or delete
+  //       tenure: selectedTenure.value,
+  //       type: item?.data_type,
+  //     });
+
+  //     console.log(response.data);
+  //     await fetchCartData();
+  //     toaster1()
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   // const tenureChange = async () => {
   //   try {
@@ -344,8 +357,8 @@ export default function FixedLayout({ item }) {
             <BottomBar
               loading={loading}
               item={item}
-              addCartItems={addCartItems}
-              removeCartItems={removeCartItems}
+              addCartItems={handleAddToCart}
+              removeCartItems={handleRemoveFromCart}
             />
           </div>
         </div>
@@ -353,6 +366,14 @@ export default function FixedLayout({ item }) {
       <div className="flex bg-white justify-center px-[20px] py-[20px] lg:pt-0 lg:px-0 items-center lg:hidden">
         <Switches item={item} />
       </div>
+      <div className="fixed z-50 w-full bottom-0 md:hidden">
+            <BottomBar
+              loading={loading}
+              item={item}
+              addCartItems={handleAddToCart}
+              removeCartItems={handleRemoveFromCart}
+            />
+          </div>
     </div>
   );
 }

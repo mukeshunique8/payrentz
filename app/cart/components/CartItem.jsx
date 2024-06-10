@@ -1,24 +1,60 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { Select } from "@chakra-ui/react";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { AppContext } from "../../contexts/AppContext";
+import { tenureChange } from "../../cartUtils"; // Import the tenureChange function
+import BASEURL from "../../API"; // Import your BASEURL configuration
 
 function CartItem({ item }) {
-  const { updateCartItem, removeFromCart } = useContext(AppContext);
+  const { cart, setCart, removeFromCart } = useContext(AppContext);
+  const [selectedTenure, setSelectedTenure] = useState(item.tenure);
+  const guest_uuid = localStorage.getItem("guest_uuid");
 
-  // console.log(item);
-
-  // console.log(item.tenure);
-  const handleQuantityChange = (change) => {
-    const newQuantity = item.quantity + change;
-    if (newQuantity >= 1 && newQuantity <= 3) {
-      updateCartItem(item.id, newQuantity, item.tenure);
+  const fetchCartData = async () => {
+    try {
+      const response = await BASEURL.get(`web/cart/list/?guest_uuid=${guest_uuid}`);
+      setCart(response.data.data);
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const handleTenureChange = (event) => {
-    updateCartItem(item.id, item.quantity, event.target.value);
+  // const handleQuantityChange = async (change) => {
+  //   const newQuantity = item.quantity + change;
+  //   if (newQuantity >= 1 && newQuantity <= 3) {
+  //     try {
+  //       const response = await BASEURL.post("web/cart/update/", {
+  //         uuid: item.uuid,
+  //         guest_uuid: guest_uuid,
+  //         quantity: newQuantity,
+  //         tenure: selectedTenure
+  //       });
+  //       if (response.data.status === "success") {
+  //         fetchCartData(); // Refresh cart data after successful update
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  // };
+
+  const handleQuantityChange = (change) => {
+    const newQuantity = item.quantity + change;
+    if (newQuantity >= 1 && newQuantity <= 3) {
+      setCart((prevCart) =>
+        prevCart.map((cartItem) =>
+          cartItem.uuid === item.uuid
+            ? { ...cartItem, quantity: newQuantity }
+            : cartItem
+        )
+      );
+    }
+  };
+  const handleTenureChange = async (event) => {
+    const newTenure = event.target.value;
+    setSelectedTenure(newTenure);
+    await tenureChange(guest_uuid, { value: newTenure }, fetchCartData);
   };
 
   return (
@@ -26,8 +62,8 @@ function CartItem({ item }) {
       <div className="relative w-[130px] h-[116px]">
         <Image
           className="object-cover rounded-[3px]"
-          src={item?.image ||"/PH_Card_Image.jpg"}
-          alt={item?.identity  }
+          src={item?.image || "/PH_Card_Image.jpg"}
+          alt={item?.identity}
           fill
           sizes="100%"
         />
@@ -47,24 +83,22 @@ function CartItem({ item }) {
           Refundable Deposit:{" "}
           <span className="font-bold text-base text-b2">₹{item?.deposit}</span>
         </p>
-        { item?.deliveryTime &&
+        {item?.deliveryTime && (
           <p className="font-medium text-base text-b2">
-          Delivery in{" "}
-          <span className="font-bold underline underline-offset-2 text-base text-blue">
-            {item?.deliveryTime}
-          </span>
-        </p>
-        }
-        <div className="flex  flex-col sm:flex-row items-start justify-start lg:items-center gap-[20px] sm:gap-[35px] w-full ">
+            Delivery in{" "}
+            <span className="font-bold underline underline-offset-2 text-base text-blue">
+              {item?.deliveryTime}
+            </span>
+          </p>
+        )}
+        <div className="flex flex-col sm:flex-row items-start justify-start lg:items-center gap-[20px] sm:gap-[35px] w-full ">
           <div className="flex justify-start gap-[13px] items-center">
             <h3 className="font-semibold text-base text-b2">Quantity</h3>
             <div className="flex gap-[10px] justify-center items-center">
               <button
                 onClick={() => handleQuantityChange(-1)}
                 disabled={item.quantity === 1}
-                className={`${
-                  item.quantity === 1 ? "text-gray-500" : "text-black"
-                }`}
+                className={`${item.quantity === 1 ? "text-gray-500" : "text-black"}`}
               >
                 <CiCircleMinus color={item.quantity === 1 ? "gray" : "black"} size={25} />
               </button>
@@ -74,9 +108,7 @@ function CartItem({ item }) {
               <button
                 onClick={() => handleQuantityChange(1)}
                 disabled={item.quantity === 3}
-                className={`${
-                  item.quantity === 3 ? "text-gray-500" : "text-black"
-                }`}
+                className={`${item.quantity === 3 ? "text-gray-500" : "text-black"}`}
               >
                 <CiCirclePlus color={item.quantity === 3 ? "gray" : "black"} size={25} />
               </button>
@@ -86,22 +118,22 @@ function CartItem({ item }) {
             <h3 className="font-semibold text-base text-b2">Tenure</h3>
             <Select
               variant="outline"
-              value={item.tenure}
+              value={selectedTenure}
               onChange={handleTenureChange}
-             placeholder={item?.tenure}
+              placeholder="Select tenure"
               icon={<></>}
             >
-              <option value="12+ months">12+ months</option>
-              <option value="6+ months">6+ months</option>
-              <option value="3+ months">3+ months</option>
-              <option value="1 month+">1 month+</option>
+              <option value="12">12+ months</option>
+              <option value="6">6+ months</option>
+              <option value="3">3+ months</option>
+              <option value="1">1 month+</option>
             </Select>
           </div>
         </div>
       </div>
       <button
         onClick={() => removeFromCart(item)}
-        className="text-b1 right-[10px] absolute lg:relative hover:font-extrabold hover:transition-all hover:duration-75  hover:text-red"
+        className="text-b1 right-[10px] absolute lg:relative hover:font-extrabold hover:transition-all hover:duration-75 hover:text-red"
       >
         Remove
       </button>

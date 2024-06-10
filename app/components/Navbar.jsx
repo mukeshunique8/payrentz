@@ -77,6 +77,7 @@ export default function Navbar() {
 
   function handleRoute(category) {
     router.push(`/${category}`);
+    setIsMenuOpen(false)
   }
 
   function handleCart() {

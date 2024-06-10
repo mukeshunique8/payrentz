@@ -102,9 +102,12 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="fixed w-full bottom-0 md:hidden">
-        <BottomBar />
-      </div>
+      {/* <div className="fixed w-full bottom-0 md:hidden">
+        <BottomBar  loading={loading}
+              item={itemDetails}
+              addCartItems={handleAddToCart}
+              removeCartItems={handleRemoveFromCart} />
+      </div> */}
     </div>
   );
 }

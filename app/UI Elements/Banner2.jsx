@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 
-const Banner2 = ({ titleSmall, titleLarge, imageSrc, reverse, rating, grad }) => {
+const Banner2 = ({ titleSmall, titleLarge, imageSrc, reverse, rating, grad ,onClick}) => {
   return (
     <div
+    onClick={onClick}
       className={`w-full h-[108px] md:h-[170px]   justify-center items-center md:gap-4 rounded-[4px] lg:rounded-[10px] ${grad} ${
         reverse ? 'flex flex-col lg:flex-row-reverse ' : 'flex flex-col lg:flex-row '
       }`}
