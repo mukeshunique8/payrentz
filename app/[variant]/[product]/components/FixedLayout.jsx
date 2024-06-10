@@ -103,14 +103,14 @@ export default function FixedLayout({ item }) {
   const handleAddToCart = async () =>{
     await addCartItems(item, guest_uuid, selectedTenure, fetchCartData, () => {
       // Toaster callback function
-      console.log('Item added to cart');
+      // console.log('Item added to cart');
     });
   }
 
   const handleRemoveFromCart = async () => {
     await removeCartItems(item, guest_uuid, selectedTenure, fetchCartData, () => {
       // Toaster callback function
-      console.log('Item removed from cart');
+      // console.log('Item removed from cart');
     });
   };
 
@@ -366,7 +366,7 @@ export default function FixedLayout({ item }) {
       <div className="flex bg-white justify-center px-[20px] py-[20px] lg:pt-0 lg:px-0 items-center lg:hidden">
         <Switches item={item} />
       </div>
-      <div className="fixed z-50 w-full bottom-0 md:hidden">
+      <div className="fixed z-50 w-full bottom-0 lg:hidden">
             <BottomBar
               loading={loading}
               item={item}

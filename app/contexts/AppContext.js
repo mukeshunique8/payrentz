@@ -10,8 +10,7 @@ export const AppProvider = ({ children }) => {
   const [showLocationModal, setShowLocationModal] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(null);
   const [cart, setCart] = useState([]);
-  const guest_uuid =
-    typeof window !== "undefined" ? localStorage.getItem("guest_uuid") : null;
+  const guest_uuid =   typeof window !== "undefined" ? localStorage.getItem("guest_uuid") : null;
 
   const state = city !== "Banglore" ? "Tamil Nadu" : "Karnataka";
   const [address, setAddress] = useState({
@@ -53,77 +52,8 @@ export const AppProvider = ({ children }) => {
     }
   }, []);
 
-  // const addToCart = async (item) => {
-  //   const existingItemIndex = cart.findIndex(
-  //     (cartItem) => cartItem.id === item.id
-  //   );
-  //   if (existingItemIndex !== -1) {
-  //     // Item already exists, update quantity and tenure
-  //     const updatedCart = [...cart];
-  //     updatedCart[existingItemIndex].quantity += item.quantity;
-  //     updatedCart[existingItemIndex].tenure = item.tenure; // Update tenure if needed
-  //     setCart(updatedCart);
-  //   } else {
-  //     // Item doesn't exist, add it to the cart
-  //     setCart([...cart, item]);
-  //   }
-
-  //   try {
-  //     await BASEURL.post("web/add-to-cart/", {
-  //       uuid: item.id,
-  //       guest_uuid: guest_uuid,
-  //       change: "add",
-  //       tenure: item.tenure,
-  //       type: item.type,
-  //     });
-  //     fetchCartData();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // const updateCartItem = async (itemId, newQuantity, newTenure) => {
-  //   setCart((prevCart) =>
-  //     prevCart.map((item) =>
-  //       item.id === itemId
-  //         ? { ...item, quantity: newQuantity, tenure: newTenure }
-  //         : item
-  //     )
-  //   );
-
-  //   try {
-  //     await BASEURL.post("web/add-to-cart/", {
-  //       uuid: itemId,
-  //       guest_uuid: guest_uuid,
-  //       change: "update",
-  //       tenure: newTenure,
-  //       quantity: newQuantity,
-  //     });
-  //     fetchCartData();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  const removeFromCart = async (removeItem) => {
-   
-    try {
-      await BASEURL.post("web/add-to-cart/", {
-        uuid: removeItem.uuid,
-        guest_uuid: guest_uuid,
-        change: "delete",
-        tenure: removeItem.tenure,
-        type: removeItem?.type.toLowerCase(),
-      });
-      setCart((prevCart) =>
-        prevCart.filter((item) => item.uuid !== removeItem.uuid)
-      );
-      console.log(cart);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+ 
+ 
   const handleSetPincode = (value) => {
     setPincode(value);
     if (typeof window !== "undefined") {
@@ -158,7 +88,6 @@ export const AppProvider = ({ children }) => {
         setCart,
         // addToCart,
         // updateCartItem,
-        removeFromCart,
         address,
         updateAddress,
         showLoginModal,

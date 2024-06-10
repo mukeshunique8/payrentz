@@ -19,7 +19,7 @@ export default function Cart() {
   const [showPayment, setShowPayment] = useState(false);
   const [addressErrors, setAddressErrors] = useState({});
   const [isPassed, setIsPassed] = useState(false);
-  const [summary,setSummary] = useState(null)
+  const [summary, setSummary] = useState(null);
 
   // console.log(cart);
   function handleContinue() {
@@ -65,12 +65,15 @@ export default function Cart() {
     return errors;
   }
   // console.log(showCart, showAddress, showAccessories, showPayment);
- 
+
+  // console.log(summary);
   const guest_uuid = localStorage.getItem("guest_uuid");
   useEffect(() => {
     const orderSummary = async () => {
       try {
-        const response = await BASEURL.get(`web/cart/summary/?guest_uuid=${guest_uuid}`);
+        const response = await BASEURL.get(
+          `web/cart/summary/?guest_uuid=${guest_uuid}`
+        );
         setSummary(response.data.data);
       } catch (err) {
         console.log(err);
@@ -80,11 +83,11 @@ export default function Cart() {
     if (guest_uuid) {
       orderSummary();
     }
-  }, [guest_uuid,cart]);
+  }, [guest_uuid, cart]);
   return (
     <div className="w-full max-w-[1440px] mx-auto md:px-[60px] lg:px-[20px]  justify-center items-center">
       <div className="flex flex-col md:flex-row justify-center items-start w-full gap-[20px]">
-        <div className="w-full lg:w-[65%] pt-[40px]">
+        <div className="w-full lg:w-[65%] px-[20px] md:px-0 pt-[40px]">
           {/* Accordions */}
           <div className="flex w-full cursor-pointer justify-start items-start flex-col">
             <div className="flex flex-col cursor-pointer gap-[12px] w-full py-[20px] border-b-[1px] border-gray">
@@ -104,9 +107,12 @@ export default function Cart() {
                 </h3>
               </div>
               {showCart && (
-                <div className="flex w-full flex-col px-[20px] gap-[20px] mt-[40px]">
+                <div className="flex w-full  flex-col px-[20px] gap-[20px] mt-[40px]">
                   {cart.map((item, index) => (
-                    <CartItem key={index} item={item} />
+                    <div className={`  ${index === cart.length-1 ?" border-none":"border-b-[1px] border-gray"}`}>
+
+                      <CartItem key={index} item={item} />
+                    </div>
                   ))}
                 </div>
               )}
@@ -198,45 +204,51 @@ export default function Cart() {
             <div className="flex flex-col gap-[30px] w-full">
               <h3 className="text-red font-bold text-2xl">Order Summary</h3>
               <div className="flex flex-col gap-[20px] pb-[20px] border-gray border-b-[1px] w-full">
-                <div className="w-full flex justify-between">
+                {/* <div className="w-full flex justify-between">
                   <h3 className="text-b1 text-base leading-[18px]">
                     Subtotal ({summary?.total_variant_count || 0} items)
                   </h3>
                   <p className="text-b1 font-semibold text-base leading-[18px]">
-                    ₹{summary?.total_variant_rent || 0}</p>
-                </div>
+                    ₹{summary?.total_variant_rent || 0}
+                  </p>
+                </div> */}
                 <div className="w-full flex justify-between">
+                  <h3 className="text-b1 text-base leading-[18px]">
+                    {`                    Refundable Deposit (${summary?.total_variant_count || 0} items) `} 
+                  </h3>
+                  <p className="text-b1 font-semibold text-base leading-[18px]">
+                    ₹ {summary?.total_variant_deposit || 0}
+                  </p>
+                </div>
+                {/* <div className="w-full flex justify-between">
                   <h3 className="text-b1 text-base leading-[18px]">
                     Taxes (GST)
                   </h3>
                   <p className="text-b1 font-semibold text-base leading-[18px]">
-                    ₹
-                    {summary?.total_variant_gst || 0}
+                    ₹{summary?.total_variant_gst || 0}
                   </p>
-                </div>
+                </div> */}
                 <div className="w-full flex justify-between">
                   <h3 className="text-b1 text-base leading-[18px]">
                     Delivery & Installation Charges
                   </h3>
                   <p className="text-b1 font-semibold text-base leading-[18px]">
-                    Free
+                    {summary?.total_variant_handling_charge || 0}
                   </p>
                 </div>
-                <div className="w-full flex justify-between">
+                {/* <div className="w-full flex justify-between">
                   <h3 className="text-b1 text-base leading-[18px]">
-                    Refundable Deposit
+                    {`                    Refundable Deposit (${summary?.total_variant_count || 0} items) `} 
                   </h3>
                   <p className="text-b1 font-semibold text-base leading-[18px]">
-                    ₹{" "}
-                    {summary?.total_variant_deposit || 0}
+                    ₹ {summary?.total_variant_deposit || 0}
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="w-full flex justify-between pb-[30px] text-b2 font-extrabold text-[18px] leading-[21px]">
                 <h3 className="font-medium">Total Payable</h3>
                 <p className="font-extrabold">
-                  ₹{" "}
-                  {summary?.total_payable || 0}
+                  ₹ {summary?.total_payable || 0}
                 </p>
               </div>
             </div>

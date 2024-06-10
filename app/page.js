@@ -21,7 +21,7 @@ export default function Page() {
     const storedBrowserId = localStorage.getItem("browser_id");
     const storedGuestId = localStorage.getItem("guest_uuid");
    
-  setShowLocationModal(!(storedPincode && storedGuestId && storedBrowserId));
+  // setShowLocationModal(!(storedPincode && storedGuestId && storedBrowserId));
 
     const fetchData = async () => {
       try {
@@ -40,7 +40,7 @@ export default function Page() {
         //   badgeBgColor: "bg-lblue",
         // }));
 
-        console.log(data);
+        // console.log(data);
         setVariantAll(data);
         // console.log(data);
       } catch (err) {
