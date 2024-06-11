@@ -1,16 +1,18 @@
 import { createContext, useState, useEffect } from "react";
-import BASEURL from "../API";
+import BASEURL from "../utils/API";
+import { v4 as uuidv4 } from "uuid";
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [pincode, setPincode] = useState("600012");
-  const [city, setCity] = useState("Chennai");
+  const [pincode, setPincode] = useState("");
+  const [city, setCity] = useState("");
   const [showModal, setShowModal] = useState(null);
   const [showLocationModal, setShowLocationModal] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(null);
   const [cart, setCart] = useState([]);
-  const guest_uuid =   typeof window !== "undefined" ? localStorage.getItem("guest_uuid") : null;
+  const [variantAll, setVariantAll] = useState([]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const state = city !== "Banglore" ? "Tamil Nadu" : "Karnataka";
   const [address, setAddress] = useState({
@@ -22,44 +24,80 @@ export const AppProvider = ({ children }) => {
     googleMapLink: "",
   });
 
-  const fetchCartData = async () => {
+  // console.log(address);
+  const fetchCartData = async (guestId) => {
     try {
-      const response = await BASEURL.get(
-        `web/cart/list/?guest_uuid=${guest_uuid}`
-      );
+      const response = await BASEURL.get(`web/cart/list/?guest_uuid=${guestId}`);
       setCart(response.data.data);
     } catch (err) {
       console.log(err);
     }
   };
-  // console.log(cart);
+
+  const fetchVariantData = async () => {
+    try {
+      const response = await BASEURL.get("web/variant/list-all/");
+      setVariantAll(response.data.data.results);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedPincode = localStorage.getItem("pincode");
-      const savedCity = localStorage.getItem("city");
+    const initialize = async () => {
+      if (typeof window !== "undefined") {
+        let storedBrowserId = localStorage.getItem("browser_id");
+        let storedGuestId = localStorage.getItem("guest_uuid");
+        const storedPincode = localStorage.getItem("pincode");
+        const storedCity = localStorage.getItem("city");
 
-      if (savedPincode) setPincode(savedPincode);
-      if (savedCity) setCity(savedCity);
+        if (!storedBrowserId) {
+          storedBrowserId = uuidv4();
+          localStorage.setItem("browser_id", storedBrowserId);
+        }
 
-      if (savedPincode && savedCity) {
-        setShowLocationModal(false);
-      } else {
-        setShowLocationModal(true);
+        if (!storedGuestId) {
+          try {
+            const response = await BASEURL.post("/web/guest/create/", {
+              browser_id: storedBrowserId,
+              pincode: storedPincode || "600012", // Default pincode
+            });
+
+            if (response.data.status === "success") {
+              storedGuestId = response.data.data.guest_uuid;
+              localStorage.setItem("guest_uuid", storedGuestId);
+            } else {
+              console.error("Error creating guest ID:", response.data);
+            }
+          } catch (error) {
+            console.error("Error creating guest ID:", error);
+          }
+        }
+
+        setPincode(storedPincode || "600012");
+        setCity(storedCity || "Chennai");
+
+        if (!storedPincode || !storedCity) {
+          setShowLocationModal(true);
+        }
+
+        if (storedGuestId) {
+          await fetchCartData(storedGuestId);
+        }
+        await fetchVariantData();
+
+        setIsInitialized(true);
       }
+    };
 
-      fetchCartData();
-    }
+    initialize();
   }, []);
 
- 
- 
   const handleSetPincode = (value) => {
     setPincode(value);
     if (typeof window !== "undefined") {
       localStorage.setItem("pincode", value);
     }
-    if (value) setShowLocationModal(false);
   };
 
   const handleSetCity = (value) => {
@@ -72,6 +110,10 @@ export const AppProvider = ({ children }) => {
   const updateAddress = (newAddress) => {
     setAddress(newAddress);
   };
+
+  if (!isInitialized) {
+    return null; // Show a loading indicator or nothing until initialization is complete
+  }
 
   return (
     <AppContext.Provider
@@ -86,15 +128,16 @@ export const AppProvider = ({ children }) => {
         setShowLocationModal,
         cart,
         setCart,
-        // addToCart,
-        // updateCartItem,
-        address,
-        updateAddress,
+        variantAll,
+        setVariantAll,
         showLoginModal,
         setShowLoginModal,
+        address,
+        updateAddress,
+        
       }}
     >
-      {showLocationModal !== null && children}
+      {children}
     </AppContext.Provider>
   );
 };

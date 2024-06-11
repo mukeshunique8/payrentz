@@ -5,9 +5,9 @@ export default function AddressForm({ errors }) {
   const { address, updateAddress, pincode } = useContext(AppContext);
   const [detectedLocation, setDetectedLocation] = useState(pincode);
   const [pickedLocation, setPickedLocation] = useState(pincode);
-  console.log(detectedLocation);
-  console.log(pickedLocation);
-  console.log(address);
+  // console.log(detectedLocation);
+  // console.log(pickedLocation);
+  // console.log(address);
 
   useEffect(() => {
     function getUserLocation() {

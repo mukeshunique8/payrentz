@@ -3,8 +3,8 @@ import Image from "next/image";
 import { Select } from "@chakra-ui/react";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { AppContext } from "../../contexts/AppContext";
-import { tenureChange, quantityChange,removeFromCart } from "../../cartUtils"; // Import the tenureChange function
-import BASEURL from "../../API"; // Import your BASEURL configuration
+import { tenureChange, quantityChange,removeFromCart } from "../../utils/cartUtils"; // Import the tenureChange function
+import BASEURL from "../../utils/API"; // Import your BASEURL configuration
 
 function CartItem({ item }) {
   const { cart, setCart } = useContext(AppContext);

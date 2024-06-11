@@ -5,7 +5,7 @@ import { IoClose } from "react-icons/io5";
 import Button from "../UI Elements/Button";
 import { useRouter } from "next/navigation";
 import { AppContext } from "../contexts/AppContext";
-import BASEURL from "../API";
+import BASEURL from "../utils/API";
 
 export default function Navbar() {
   const [categories, setCategories] = useState([]);

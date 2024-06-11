@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import Button from "./Button";
-import BASEURL from "../API";
+import BASEURL from "../utils/API";
 import { AppContext } from "../contexts/AppContext";
 
 export default function PinCode() {

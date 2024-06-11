@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppContext } from "../contexts/AppContext";
-import BASEURL from "../API";
+import BASEURL from "../utils/API";
 
 export default function Navbar2() {
   const [categories, setCategories] = useState([]);
@@ -46,7 +46,7 @@ const router = useRouter()
 
 
   const renderAppliances = Appliances.map((list, index) => (
-    <div onClick={()=>handleRoute(list)} className="text-white cursor-pointer  md:text-[14px] text-[12px] font-bold">
+    <div key={index} onClick={()=>handleRoute(list)} className="text-white cursor-pointer  md:text-[14px] text-[12px] font-bold">
       <p className="w-full  cursor-pointer text-nowrap">{list}</p>
     </div>
   ));

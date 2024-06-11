@@ -9,7 +9,7 @@ import { AppContext } from "../../contexts/AppContext"; // Adjust the import pat
 import CartItem from "./CartItem";
 import AddressForm from "./AddressForm"; // Adjust the import path as necessary
 import CartAccessories from "./CartAccessories";
-import BASEURL from "../../API";
+import BASEURL from "../../utils/API";
 
 export default function Cart() {
   const { cart, address } = useContext(AppContext);
@@ -18,25 +18,31 @@ export default function Cart() {
   const [showAccessories, setShowAccessories] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [addressErrors, setAddressErrors] = useState({});
-  const [isPassed, setIsPassed] = useState(false);
   const [summary, setSummary] = useState(null);
-
-  // console.log(cart);
+  
+  const [isPassedCart, setIsPassedCart] = useState(false);
+  const [isPassedAddress, setIsPassedAddress] = useState(false);
+  const [isPassedAccessories, setIsPassedAccessories] = useState(false);
+  const [isPassedPayment, setIsPassedPayment] = useState(false);
+  
   function handleContinue() {
     if (showCart) {
       setShowCart(false);
       setShowAddress(true);
+      setIsPassedCart(true)
     } else if (showAddress) {
       const errors = validateAddress(address);
       if (Object.keys(errors).length === 0) {
         setShowAddress(false);
         setShowAccessories(true);
+        setIsPassedAddress(true)
       } else {
         setAddressErrors(errors);
       }
     } else if (showAccessories) {
       setShowAccessories(false);
       setShowPayment(true);
+      setIsPassedAccessories(true)
     }
   }
 
@@ -44,12 +50,19 @@ export default function Cart() {
     if (showPayment) {
       setShowPayment(false);
       setShowAccessories(true);
+      setIsPassedAccessories(false)
+     
     } else if (showAccessories) {
       setShowAccessories(false);
       setShowAddress(true);
+      setIsPassedAccessories(false)
+      setIsPassedAddress(false)
+      
     } else if (showAddress) {
       setShowAddress(false);
       setShowCart(true);
+      setIsPassedAddress(false)
+      setIsPassedCart(false)
     }
   }
   function validateAddress(address) {
@@ -93,15 +106,13 @@ export default function Cart() {
             <div className="flex flex-col cursor-pointer gap-[12px] w-full py-[20px] border-b-[1px] border-gray">
               <div className="flex gap-[12px] justify-start items-center">
                 <HiOutlineShoppingCart
-                  color={showCart ? "Black" : "#DBDBDB"}
+                   color={isPassedCart ? "#2B5CAB" : (showCart ? "black" : "#DBDBDB")}
                   size={25}
                 />
                 <h3
                   className={`${
-                    showCart
-                      ? "font-bold text-[#2D2D2D]"
-                      : "font-medium text-[#CDCDCD]"
-                  }  cursor-pointer text-[20px]  leading-[23px]`}
+                    isPassedCart ? "text-blue font-bold" : (showCart ? "font-bold text-[#2D2D2D]" : "font-medium text-[#CDCDCD]")
+                  }`}
                 >
                   Your Cart
                 </h3>
@@ -120,15 +131,14 @@ export default function Cart() {
             <div className="flex flex-col cursor-pointer gap-[12px] w-full py-[20px] border-b-[1px] border-gray">
               <div className="flex gap-[12px] justify-start items-center">
                 <FaRegCompass
-                  color={showAddress ? "Black" : "#DBDBDB"}
+                  color={isPassedAddress ? "#2B5CAB" : (showAddress ? "black" : "#DBDBDB")}
                   size={25}
                 />
                 <h3
-                  className={`${
-                    showAddress
-                      ? "font-bold text-[#2D2D2D]"
-                      : "font-medium text-[#CDCDCD]"
-                  }  cursor-pointer text-[20px]  leading-[23px]`}
+                className={`${
+                  isPassedAddress ? "text-blue font-bold" : (showAddress ? "font-bold text-[#2D2D2D]" : "font-medium text-[#CDCDCD]")
+                }`}
+                 
                 >
                   Address
                 </h3>
@@ -142,15 +152,13 @@ export default function Cart() {
             <div className="flex flex-col cursor-pointer gap-[12px] w-full py-[20px] border-b-[1px] border-gray">
               <div className="flex gap-[12px] justify-start items-center">
                 <TbCube
-                  color={showAccessories ? "Black" : "#DBDBDB"}
+                   color={isPassedAccessories ? "#2B5CAB" : (showAccessories ? "black" : "#DBDBDB")}
                   size={25}
                 />
                 <h3
-                  className={`${
-                    showAccessories
-                      ? "font-bold text-[#2D2D2D]"
-                      : "font-medium text-[#CDCDCD]"
-                  }  cursor-pointer text-[20px]  leading-[23px]`}
+                 className={`${
+                  isPassedAccessories ? "text-blue font-bold" : (showAccessories ? "font-bold text-[#2D2D2D]" : "font-medium text-[#CDCDCD]")
+                }`}
                 >
                   Accessories
                 </h3>
@@ -164,15 +172,13 @@ export default function Cart() {
             <div className="flex flex-col cursor-pointer gap-[12px] w-full py-[20px] border-b-[1px] border-gray">
               <div className="flex gap-[12px] justify-start items-center">
                 <MdPayment
-                  color={showPayment ? "Black" : "#DBDBDB"}
+                 color={isPassedPayment ? "#2B5CAB" : (showPayment ? "black" : "#DBDBDB")}
                   size={25}
                 />
                 <h3
-                  className={`${
-                    showPayment
-                      ? "font-bold text-[#2D2D2D]"
-                      : "font-medium text-[#CDCDCD]"
-                  }  cursor-pointer text-[20px]  leading-[23px]`}
+                   className={`${
+                    isPassedPayment ? "text-blue font-bold" : (showPayment ? "font-bold text-[#2D2D2D]" : "font-medium text-[#CDCDCD]")
+                  }`}
                 >
                   Payment
                 </h3>

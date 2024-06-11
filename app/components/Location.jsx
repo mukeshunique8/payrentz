@@ -1,14 +1,13 @@
 "use client";
 import { useEffect, useState, useContext } from "react";
-import BASEURL from "../API";
+import BASEURL from "../utils/API";
 import Image from "next/image";
 import { IoMdClose } from "react-icons/io";
 import Button from "../UI Elements/Button";
 import { AppContext } from "../contexts/AppContext";
 import RoundImageCard from "../UI Elements/RoundImageCard";
-import { v4 as uuidv4 } from "uuid"; // To generate a unique browser ID
 
-export default function Location({ onClose }) {
+export default function Location() {
   const {
     pincode,
     setPincode,
@@ -18,54 +17,12 @@ export default function Location({ onClose }) {
     setShowLocationModal,
   } = useContext(AppContext);
 
-  localStorage.setItem("city", city);
-
   const [localPincode, setLocalPincode] = useState(pincode || "");
   const [error, setError] = useState(null);
   const [locations, setLocations] = useState([]);
   const [detectedLocation, setDetectedLocation] = useState(pincode);
 
-  const availableLocations = locations.map((location) =>
-    location.pincode_detail.toString()
-  );
-
-  console.log();
   useEffect(() => {
-    const initialize = async () => {
-      const storedPincode = localStorage.getItem("pincode");
-      const storedBrowserId = localStorage.getItem("browser_id");
-      const storedGuestId = localStorage.getItem("guest_uuid");
-     
-
-      const browserId = storedBrowserId || uuidv4();
-      const pincodeToUse = storedPincode || pincode; // Default pincode if not set
-
-      if (!storedBrowserId) {
-        localStorage.setItem("browser_id", browserId);
-      }
-
-      if (!storedGuestId) {
-        try {
-          const response = await BASEURL.post('/web/guest/create/', {
-            browser_id: browserId,
-            pincode: pincodeToUse,
-          });
-
-          if (response.data.status === "success") {
-       
-            localStorage.setItem("guest_uuid", response.data.data.guest_uuid);
-            localStorage.setItem("pincode", pincodeToUse);
-            
-            setPincode(pincodeToUse);
-          } else {
-            console.error("Error creating guest ID:", response.data);
-          }
-        } catch (error) {
-          console.error('Error creating guest ID:', error);
-        }
-      }
-    };
-
     const fetchData = async () => {
       try {
         const response = await BASEURL.get("web/home/city/");
@@ -83,7 +40,6 @@ export default function Location({ onClose }) {
     };
 
     fetchData();
-    initialize();
   }, []);
 
   function getUserLocation() {
@@ -187,9 +143,19 @@ export default function Location({ onClose }) {
     />
   ));
 
+  const closeModal = () => {
+    if (!localPincode) {
+      setPincode("600012");
+      setCity("Chennai");
+      localStorage.setItem("city", "Chennai");
+      localStorage.setItem("pincode", "600012");
+    }
+    setShowLocationModal(false);
+  };
+
   return showLocationModal ? (
     <div className="w-full rounded-[20px] bg-white p-[20px] md:p-[60px] max-w-[1153px] gap-[53px] mx-auto justify-center items-center flex flex-col md:flex-row relative">
-      <button className="absolute top-4 right-4 text-black" onClick={onClose}>
+      <button className="absolute top-4 right-4 text-black" onClick={closeModal}>
         <IoMdClose color="gray" size={20} />
       </button>
 

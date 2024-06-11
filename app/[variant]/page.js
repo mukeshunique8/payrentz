@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useParams, useSearchParams } from "next/navigation";
-import BASEURL from "../API";
+import BASEURL from "../utils/API";
 import Display from "../components/Display";
 import Filter from "./components/Filter";
 import Path from "./components/Path";

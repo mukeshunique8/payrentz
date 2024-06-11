@@ -1,5 +1,4 @@
-import BASEURL from "./API";
-
+import BASEURL from "./API"
 export const requestAndSendOTP = async (phoneNumber) => {
   try {
     const response = await BASEURL.post("access/customer/vash-otp/", {
@@ -31,3 +30,5 @@ export const validateOTP = async (phoneNumber, otp) => {
     throw error;
   }
 };
+
+

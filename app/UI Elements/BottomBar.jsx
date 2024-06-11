@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Button from "./Button";
 import { AppContext } from "../contexts/AppContext";
-import BASEURL from "../API";
+import BASEURL from "../utils/API";
 
 export default function BottomBar({item, addCartItems,removeCartItems  }) {
   const { cart, addToCart, removeFromCart } = useContext(AppContext);

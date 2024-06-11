@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import Image from "next/image";
 import Button from "../UI Elements/Button";
 import { FaRegEdit } from "react-icons/fa";
-import { requestAndSendOTP, validateOTP } from "../auth";
+import { requestAndSendOTP, validateOTP } from "../utils/auth";
 import { AppContext } from "../contexts/AppContext";
 
 export default function Login({ onClose }) {
@@ -15,8 +15,7 @@ export default function Login({ onClose }) {
   const [user,setuser] = useState(false)
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const { showLocationModal,
-    setShowLocationModal} =useContext(AppContext)
+  const { showLocationModal, setShowLocationModal} =useContext(AppContext)
 
 function handleLogOut(){
 

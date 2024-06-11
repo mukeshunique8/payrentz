@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function RoundImageCard({
   imgsrc,
-  imgalt,
+  imgalt="No Image",
   name,
   imgSizes = "w-[83px] h-[83px] md:w-[135px] md:h-[135px]",
   textStyle = "text-[12px] md:text-[18px] text-b1",

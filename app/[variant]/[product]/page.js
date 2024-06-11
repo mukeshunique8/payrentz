@@ -12,7 +12,7 @@ import ProductDetails from "./components/ProductDetails";
 import FixedLayout from "./components/FixedLayout";
 import BottomBar from "../../UI Elements/BottomBar";
 import PinCode from "../../UI Elements/PinCode";
-import BASEURL from "../../API";
+import BASEURL from "../../utils/API";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
 
 export default function Page() {

@@ -9,11 +9,11 @@ import PinCode from "../../../UI Elements/PinCode";
 import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Switches from "./Switches";
-import BASEURL from "../../../API";
+import BASEURL from "../../../utils/API";
 import { AppContext } from "../../../contexts/AppContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { addCartItems, removeCartItems } from "../../../cartUtils"
+import { addCartItems, removeCartItems } from "../../../utils/cartUtils"
 export default function FixedLayout({ item }) {
   // const notify = () => toast("Item Added To Cart!");
   
